@@ -6,6 +6,7 @@
 #
 # Updates:
 # 23-Mar-2019 jdw make cache file names python version specific
+# 24-Mar-2019 jdw add leaf node to taxonomy lineage
 ##
 
 import logging
@@ -58,6 +59,7 @@ class TaxonomyUtils(object):
     def getLineage(self, taxId):
         pList = []
         try:
+            pList.append(taxId)
             pt = self.getParentTaxid(taxId)
             while ((pt is not None) and (pt != 1)):
                 pList.append(pt)
@@ -110,6 +112,7 @@ class TaxonomyUtils(object):
     def __getLineageD(self, taxId):
         pD = {}
         try:
+            pD[taxId] = True
             pt = self.getParentTaxid(taxId)
             while ((pt is not None) and (pt != 1)):
                 pD[pt] = True
@@ -173,6 +176,7 @@ class TaxonomyUtils(object):
         pyVersion = sys.version_info[0]
         taxNamePath = os.path.join(taxDirPath, "taxonomy_names-py%s.pic" % str(pyVersion))
         taxNodePath = os.path.join(taxDirPath, "taxonomy_nodes-py%s.pic" % str(pyVersion))
+        #
         if useCache and self.__mU.exists(taxNamePath) and self.__mU.exists(taxNamePath):
             tD = self.__mU.doImport(taxNamePath, format="pickle")
             nD = self.__mU.doImport(taxNodePath, format="pickle")
