@@ -4,10 +4,13 @@
 # Date:    9-Mar-2019
 # Version: 0.001
 #
+# Updates:
+# 23-Mar-2019 jdw make cache file names python version specific
 ##
 
 import logging
 import os.path
+import sys
 
 from rcsb.utils.io.MarshalUtil import MarshalUtil
 
@@ -40,7 +43,7 @@ class TaxonomyUtils(object):
 
     def getCommonNames(self, taxId):
         try:
-            return self.__nameD[int(taxId)]['cn']
+            return list(set(self.__nameD[int(taxId)]['cn']))
         except Exception:
             pass
         return None
@@ -167,14 +170,15 @@ class TaxonomyUtils(object):
 
     #
     def __reload(self, urlTarget, taxDirPath, useCache=True):
-
-        taxNamePath = os.path.join(taxDirPath, "taxonomy_names.pic")
-        taxNodePath = os.path.join(taxDirPath, "taxonomy_nodes.pic")
+        pyVersion = sys.version_info[0]
+        taxNamePath = os.path.join(taxDirPath, "taxonomy_names-py%s.pic" % str(pyVersion))
+        taxNodePath = os.path.join(taxDirPath, "taxonomy_nodes-py%s.pic" % str(pyVersion))
         if useCache and self.__mU.exists(taxNamePath) and self.__mU.exists(taxNamePath):
             tD = self.__mU.doImport(taxNamePath, format="pickle")
             nD = self.__mU.doImport(taxNodePath, format="pickle")
             logger.debug("Taxonomy name length %d node length %d" % (len(tD), len(nD)))
         else:
+            logger.info("Fetch taxonomy data from source %s" % urlTarget)
             nmL, ndL = self.__fetchFromSource(urlTarget, taxDirPath)
             tD = self.__extractNames(nmL)
             ok = self.__mU.doExport(taxNamePath, tD, format="pickle")
