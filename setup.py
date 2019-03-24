@@ -38,14 +38,13 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ),
     entry_points={
         'console_scripts': []
     },
     #
-    install_requires=['rcsb.utils.io >= 0.24'],
+    install_requires=['rcsb.utils.io >= 0.25'],
     packages=find_packages(exclude=['rcsb.mock-data', 'rcsb.utils.tests-taxonomy', 'rcsb.utils.tests-*', 'tests.*']),
     package_data={
         # If any package contains *.md or *.rst ...  files, include them:
