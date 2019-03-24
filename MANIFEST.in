@@ -1,0 +1,5 @@
+#
+# File: py-rcsb_utils_taxonomy/MANIFEST.in
+#
+include HISTORY.txt
+#
