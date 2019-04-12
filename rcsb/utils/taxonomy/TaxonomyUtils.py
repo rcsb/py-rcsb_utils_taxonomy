@@ -8,8 +8,10 @@
 # 23-Mar-2019 jdw make cache file names python version specific
 # 24-Mar-2019 jdw add leaf node to taxonomy lineage
 # 25-Mar-2019 jdw add tests for merged taxons and method getMergedTaxId()
+#  1-Apr-2019 jdw add method getChildren() for adjacent children.
 ##
 
+import collections
 import logging
 import os.path
 import sys
@@ -34,6 +36,7 @@ class TaxonomyUtils(object):
         self.__nodeD = {}
         self.__nameD = {}
         self.__mergeD = {}
+        self.__childD = {}
         #
         self.__nameD, self.__nodeD, self.__mergeD = self.__reload(self.__urlTarget, self.__taxDirPath, useCache=useCache)
 
@@ -48,6 +51,16 @@ class TaxonomyUtils(object):
         try:
             taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
             return self.__nameD[int(taxId)]['sn']
+        except Exception:
+            pass
+        return None
+
+    def getAlternateName(self, taxId):
+        """ Approximately, the preferred common name.
+        """
+        try:
+            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            return self.__nameD[int(taxId)]['alt']
         except Exception:
             pass
         return None
@@ -193,6 +206,75 @@ class TaxonomyUtils(object):
             logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
         return False
 
+    def exportNodeList(self, startTaxId=1):
+        """ Test export taxonomy data in a particular node list data structure.
+
+        """
+        try:
+            dL = []
+            taxIdList = self.getBfsTraverseList(startTaxId)
+            # rootTaxids = [131567, 10239, 28384, 12908]
+            for taxId in taxIdList:
+                sn = self.getScientificName(taxId)
+                altName = self.getAlternateName(taxId)
+                displayName = sn + ' (' + altName + ')' if altName else sn
+                #
+                # logger.debug("Scientific name (%d): %s (%r)" % (taxId, sn, altName))
+                #
+                pTaxId = self.getParentTaxid(taxId)
+                if pTaxId == taxId:
+                    lL = []
+                else:
+                    lL = self.getLineage(taxId)
+
+                #
+                d = {'id': taxId, 'name': displayName, 'lineage': lL, 'parents': [pTaxId], 'depth': len(lL)}
+                dL.append(d)
+        except Exception as e:
+            logger.exception("Failing with %s" % str(e))
+        #
+        taxTreePath = os.path.join(self.__taxDirPath, "taxonomy_node_tree.json")
+        self.__mU.doExport(taxTreePath, dL, format="json", indent=3)
+        return dL
+
+    def getBfsTraverseList(self, startTaxId):
+        """Traverse the taxonomy nodes in bfs order starting from startTaxId.
+        """
+        #
+        tL = []
+        visited = set([startTaxId])
+        queue = collections.deque(visited)
+        while queue:
+            taxId = queue.popleft()
+            tL.append(taxId)
+            for childTaxId in self.getChildren(taxId):
+                if childTaxId not in visited:
+                    queue.append(childTaxId)
+                    visited.add(childTaxId)
+        return tL
+
+    def getChildren(self, taxId):
+        cL = []
+        try:
+            self.__childD = self.__getAdjacentDecendants(self.__nodeD) if not self.__childD else self.__childD
+            cL = self.__childD[taxId]
+        except Exception as e:
+            # logger.exception("For %r failing with %s" % (taxId, str(e)))
+            pass
+        return cL
+        #
+
+    def __getAdjacentDecendants(self, nodeD):
+        """ Convert d[childTaxId] = (parentTaxid,rank) to d[parentTaxid] = [childTaxid, ... ]
+        """
+        cD = {}
+        logger.debug("Parent node lookup dictionary length %d" % len(nodeD))
+        for childTaxId, (parentTaxId, rank) in nodeD.items():
+            cD.setdefault(parentTaxId, []).append(childTaxId)
+        #
+        logger.debug("Adjacent child lookup dictionary length %d" % len(cD))
+        return cD
+
     #
     def __reload(self, urlTarget, taxDirPath, useCache=True):
         pyVersion = sys.version_info[0]
@@ -257,9 +339,11 @@ class TaxonomyUtils(object):
                     if nameType in ['scientific name']:
                         tD[taxId]['sn'] = name
                         continue
-                    if 'cn' not in tD[taxId]:
-                        tD[taxId]['cn'] = []
-                    tD[taxId]['cn'].append(name)
+                    # take first common name
+                    if nameType in ['common name'] and 'alt' not in tD[taxId]:
+                        tD[taxId]['alt'] = name
+                    #
+                    tD[taxId].setdefault('cn', []).append(name)
                 else:
                     pass
             logger.debug("Taxonomy dictionary length %d \n" % len(tD))

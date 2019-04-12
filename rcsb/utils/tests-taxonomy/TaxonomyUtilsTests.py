@@ -39,7 +39,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
 
     def setUp(self):
         self.__verbose = True
-        self.__useCache = False
+        self.__useCache = True
         #
         self.__workPath = os.path.join(HERE, 'test-output')
         if not self.__useCache:
@@ -107,8 +107,11 @@ class TaxonomyUtilsTests(unittest.TestCase):
             sn = tU.getScientificName(taxId)
             logger.debug("Scientific name (%d): %s" % (taxId, sn))
 
+            tL = tU.getLineage(taxId)
+            logger.info("tL(%d) %r" % (len(tL), tL))
+            #
             tL = tU.getLineageWithNames(taxId)
-            logger.debug("tL(%d) %r" % (len(tL), tL))
+            logger.info("tL(%d) %r" % (len(tL), tL))
             self.assertGreaterEqual(len(tL), 32)
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
@@ -152,6 +155,19 @@ class TaxonomyUtilsTests(unittest.TestCase):
             logger.exception("Failing with %s" % str(e))
             self.fail()
 
+    def testExportTree(self):
+        """ Test export taxonomy data in a particular data structure.
+        """
+        try:
+            dL = []
+            tU = TaxonomyUtils(taxDirPath=self.__workPath)
+            dL = tU.exportNodeList()
+            logger.info("Node list length %d" % len(dL))
+            logger.info("Node list %r" % dL[:20])
+        except Exception as e:
+            logger.exception("Failing with %s" % str(e))
+            self.fail()
+
 
 def utilReadSuite():
     suiteSelect = unittest.TestSuite()
@@ -161,8 +177,18 @@ def utilReadSuite():
     return suiteSelect
 
 
+def utilTreeSuite():
+    suiteSelect = unittest.TestSuite()
+    suiteSelect.addTest(TaxonomyUtilsTests("testExportTree"))
+    return suiteSelect
+
+
 if __name__ == '__main__':
     #
     if True:
         mySuite = utilReadSuite()
+        unittest.TextTestRunner(verbosity=2).run(mySuite)
+
+    if True:
+        mySuite = utilTreeSuite()
         unittest.TextTestRunner(verbosity=2).run(mySuite)
