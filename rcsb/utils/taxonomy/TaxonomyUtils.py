@@ -233,8 +233,11 @@ class TaxonomyUtils(object):
 
                 #
                 # d = {'id': taxId, 'name': displayName, 'lineage': lL, 'parents': [pTaxId], 'depth': len(lL)}
-                #d = {'id': str(taxId), 'name': displayName, 'lineage': [str(t) for t in lL], 'parents': [str(pTaxId)], 'depth': len(lL)}
-                d = {'id': str(taxId), 'name': displayName, 'parents': [str(pTaxId)], 'depth': len(lL)}
+                # d = {'id': str(taxId), 'name': displayName, 'lineage': [str(t) for t in lL], 'parents': [str(pTaxId)], 'depth': len(lL)}
+                if taxId == startTaxId:
+                    d = {'id': str(taxId), 'name': displayName, 'depth': 0}
+                else:
+                    d = {'id': str(taxId), 'name': displayName, 'parents': [str(pTaxId)], 'depth': len(lL)}
                 dL.append(d)
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
