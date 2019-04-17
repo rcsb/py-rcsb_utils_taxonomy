@@ -159,8 +159,21 @@ class TaxonomyUtilsTests(unittest.TestCase):
         """ Test export taxonomy data in a particular data structure.
         """
         try:
+            useCache = False
+            if not useCache:
+                cachePath = os.path.join(self.__workPath, 'NCBI')
+                if not os.access(cachePath, os.W_OK):
+                    try:
+                        os.makedirs(cachePath, 0o755)
+                    except Exception:
+                        pass
+
+                fpL = glob.glob(os.path.join(cachePath, "*"))
+                if fpL:
+                    for fp in fpL:
+                        os.remove(fp)
             dL = []
-            tU = TaxonomyUtils(taxDirPath=self.__workPath)
+            tU = TaxonomyUtils(taxDirPath=cachePath, useCache=useCache)
             dL = tU.exportNodeList()
             logger.info("Node list length %d" % len(dL))
             logger.info("Node list %r" % dL[:20])
@@ -185,7 +198,7 @@ def utilTreeSuite():
 
 if __name__ == '__main__':
     #
-    if True:
+    if False:
         mySuite = utilReadSuite()
         unittest.TextTestRunner(verbosity=2).run(mySuite)
 
