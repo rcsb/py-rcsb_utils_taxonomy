@@ -219,16 +219,22 @@ class TaxonomyUtils(object):
                 altName = self.getAlternateName(taxId)
                 displayName = sn + ' (' + altName + ')' if altName else sn
                 #
+                pTaxId = self.getParentTaxid(taxId)
+                #
+                if not sn or len(sn) < 1:
+                    logger.info("Unexpected null taxon %r sn %r" % (taxId, sn))
+                #
                 # logger.debug("Scientific name (%d): %s (%r)" % (taxId, sn, altName))
                 #
-                pTaxId = self.getParentTaxid(taxId)
                 if pTaxId == taxId:
                     lL = []
                 else:
                     lL = self.getLineage(taxId)
 
                 #
-                d = {'id': taxId, 'name': displayName, 'lineage': lL, 'parents': [pTaxId], 'depth': len(lL)}
+                # d = {'id': taxId, 'name': displayName, 'lineage': lL, 'parents': [pTaxId], 'depth': len(lL)}
+                #d = {'id': str(taxId), 'name': displayName, 'lineage': [str(t) for t in lL], 'parents': [str(pTaxId)], 'depth': len(lL)}
+                d = {'id': str(taxId), 'name': displayName, 'parents': [str(pTaxId)], 'depth': len(lL)}
                 dL.append(d)
         except Exception as e:
             logger.exception("Failing with %s" % str(e))

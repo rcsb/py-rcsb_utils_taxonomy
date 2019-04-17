@@ -3,6 +3,7 @@
   23-Mar-2019  - V0.11 make cache file names python version specific
   25-Mar-2019  - V0.13 add test for merged taxons
   12-Apr-2019  - V0.14 add tree export method and update version/dependencies
+  16-Apr-2019  - V0.15 cast types in tree node lists to string and remove lineage
 #
 
 
