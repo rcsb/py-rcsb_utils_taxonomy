@@ -5,6 +5,9 @@
   12-Apr-2019  - V0.14 add tree export method and update version/dependencies
   16-Apr-2019  - V0.15 cast types in tree node lists to string and remove lineage
   17-Apr-2019  - V0.16 Adjust convention for parents and depth of the root node.
+  23-Apr-2019  - V0.17 Add filtering tree node list generator
+  24-Apr-2019  - V0.18 Exclude synthetic root from exported tree.
+##
 #
 
 

@@ -9,6 +9,7 @@
 # 24-Mar-2019 jdw add leaf node to taxonomy lineage
 # 25-Mar-2019 jdw add tests for merged taxons and method getMergedTaxId()
 #  1-Apr-2019 jdw add method getChildren() for adjacent children.
+# 24-Apr-2019 jdw Add filter option to node list generator and exclude synthetic root from exported tree.
 ##
 
 import collections
@@ -206,13 +207,19 @@ class TaxonomyUtils(object):
             logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
         return False
 
-    def exportNodeList(self, startTaxId=1):
+    def exportNodeList(self, startTaxId=1, rootTaxId=1, filterD=None):
         """ Test export taxonomy data in a particular node list data structure.
+
+            Note: now excluding root node from node list.
 
         """
         try:
             dL = []
             taxIdList = self.getBfsTraverseList(startTaxId)
+            logger.info("Full taxon list length %d" % len(taxIdList))
+            if filterD:
+                taxIdList = [tId for tId in taxIdList if tId in filterD]
+            logger.info("Filtered taxon list length %d" % len(taxIdList))
             # rootTaxids = [131567, 10239, 28384, 12908]
             for taxId in taxIdList:
                 sn = self.getScientificName(taxId)
@@ -229,12 +236,15 @@ class TaxonomyUtils(object):
                 if pTaxId == taxId:
                     lL = []
                 else:
-                    lL = self.getLineage(taxId)
+                    lL = self.getLineage(taxId)[1:]
 
                 #
                 # d = {'id': taxId, 'name': displayName, 'lineage': lL, 'parents': [pTaxId], 'depth': len(lL)}
                 # d = {'id': str(taxId), 'name': displayName, 'lineage': [str(t) for t in lL], 'parents': [str(pTaxId)], 'depth': len(lL)}
-                if taxId == startTaxId:
+                #
+                if taxId == rootTaxId:
+                    continue
+                elif pTaxId == rootTaxId:
                     d = {'id': str(taxId), 'name': displayName, 'depth': 0}
                 else:
                     d = {'id': str(taxId), 'name': displayName, 'parents': [str(pTaxId)], 'depth': len(lL)}
