@@ -56,6 +56,18 @@ class TaxonomyUtils(object):
             pass
         return None
 
+    def getParentScientificName(self, taxId, depth=1):
+        """ Return the scientific name for the parent of the input taxId at the input lineage depth.
+        """
+        try:
+            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            iL = self.getLineage(taxId)
+            tId = iL[depth]
+            return self.__nameD[int(tId)]['sn']
+        except Exception:
+            pass
+        return None
+
     def getAlternateName(self, taxId):
         """ Approximately, the preferred common name.
         """

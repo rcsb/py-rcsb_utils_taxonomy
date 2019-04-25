@@ -92,7 +92,8 @@ class TaxonomyUtilsTests(unittest.TestCase):
             cnL = tU.getCommonNames(taxId)
             self.assertGreaterEqual(len(cnL), 2)
             logger.debug("Common names (%d): %r" % (taxId, cnL))
-
+            psn = tU.getParentScientificName(taxId)
+            logger.info("Parent scientific name %s" % psn)
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
             self.fail()
@@ -113,6 +114,8 @@ class TaxonomyUtilsTests(unittest.TestCase):
             tL = tU.getLineageWithNames(taxId)
             logger.info("tL(%d) %r" % (len(tL), tL))
             self.assertGreaterEqual(len(tL), 32)
+            psn = tU.getParentScientificName(taxId)
+            logger.info("Parent scientific name %s" % psn)
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
             self.fail()
@@ -167,7 +170,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
                         os.makedirs(cachePath, 0o755)
                     except Exception:
                         pass
-
+                ##
                 fpL = glob.glob(os.path.join(cachePath, "*"))
                 if fpL:
                     for fp in fpL:
@@ -198,7 +201,7 @@ def utilTreeSuite():
 
 if __name__ == '__main__':
     #
-    if False:
+    if True:
         mySuite = utilReadSuite()
         unittest.TextTestRunner(verbosity=2).run(mySuite)
 
