@@ -67,6 +67,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
         try:
             taxId = 9606
             tU = TaxonomyUtils(taxDirPath=self.__workPath)
+
             tL = tU.getLineage(taxId)
             logger.debug("Lineage for %d (%d): %r" % (taxId, len(tL), tL))
             self.assertGreaterEqual(len(tL), 30)
@@ -93,7 +94,19 @@ class TaxonomyUtilsTests(unittest.TestCase):
             self.assertGreaterEqual(len(cnL), 2)
             logger.debug("Common names (%d): %r" % (taxId, cnL))
             psn = tU.getParentScientificName(taxId)
-            logger.info("Parent scientific name %s" % psn)
+            logger.debug("Parent scientific name %s" % psn)
+            #
+            taxId = 37486
+            sn = tU.getScientificName(taxId)
+            logger.debug("Scientific name (%d): %s" % (taxId, sn))
+            self.assertGreater(len(sn), 10)
+            cnL = tU.getCommonNames(taxId)
+            self.assertGreaterEqual(len(cnL), 1)
+            logger.debug("Common names (%d): %r" % (taxId, cnL))
+            psn = tU.getParentScientificName(taxId)
+            logger.debug("Parent scientific name %s" % psn)
+            logger.debug("Lineage names %r" % tU.getLineageWithNames(taxId))
+            #
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
             self.fail()
@@ -109,13 +122,13 @@ class TaxonomyUtilsTests(unittest.TestCase):
             logger.debug("Scientific name (%d): %s" % (taxId, sn))
 
             tL = tU.getLineage(taxId)
-            logger.info("tL(%d) %r" % (len(tL), tL))
+            logger.debug("tL(%d) %r" % (len(tL), tL))
             #
             tL = tU.getLineageWithNames(taxId)
-            logger.info("tL(%d) %r" % (len(tL), tL))
+            logger.debug("tL(%d) %r" % (len(tL), tL))
             self.assertGreaterEqual(len(tL), 32)
             psn = tU.getParentScientificName(taxId)
-            logger.info("Parent scientific name %s" % psn)
+            logger.debug("Parent scientific name %s" % psn)
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
             self.fail()
@@ -151,7 +164,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
             count = 0
             for taxId in missingTaxIds:
                 if tU.getMergedTaxId(taxId) == taxId:
-                    logger.info("Missing taxid %d" % taxId)
+                    logger.debug("Missing taxid %d" % taxId)
                     count += 1
             self.assertEqual(count, 0)
         except Exception as e:
@@ -178,8 +191,8 @@ class TaxonomyUtilsTests(unittest.TestCase):
             dL = []
             tU = TaxonomyUtils(taxDirPath=cachePath, useCache=useCache)
             dL = tU.exportNodeList()
-            logger.info("Node list length %d" % len(dL))
-            logger.info("Node list %r" % dL[:20])
+            logger.debug("Node list length %d" % len(dL))
+            logger.debug("Node list %r" % dL[:20])
         except Exception as e:
             logger.exception("Failing with %s" % str(e))
             self.fail()
@@ -205,6 +218,6 @@ if __name__ == '__main__':
         mySuite = utilReadSuite()
         unittest.TextTestRunner(verbosity=2).run(mySuite)
 
-    if True:
+    if False:
         mySuite = utilTreeSuite()
         unittest.TextTestRunner(verbosity=2).run(mySuite)

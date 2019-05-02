@@ -290,7 +290,7 @@ class TaxonomyUtils(object):
             self.__childD = self.__getAdjacentDecendants(self.__nodeD) if not self.__childD else self.__childD
             cL = self.__childD[taxId]
         except Exception as e:
-            # logger.exception("For %r failing with %s" % (taxId, str(e)))
+            logger.debug("For %r failing with %s" % (taxId, str(e)))
             pass
         return cL
         #
@@ -352,7 +352,10 @@ class TaxonomyUtils(object):
 
     def __extractNames(self, rowL):
         """ Extract taxonomy names and synonyms from NCBI taxonomy database dump file row list.
+
         """
+        # for matched enclosing quotes
+        # reQu = re.compile(r'''(['\"])(.*?)\1$''')
         tD = {}
         try:
             # csvL = []
@@ -360,7 +363,12 @@ class TaxonomyUtils(object):
                 if len(t) < 7:
                     continue
                 taxId = int(t[0])
-                name = t[2]
+                name = t[2].strip("'")
+                #
+                # if reQu.match(name):
+                #    name = name.strip("'")
+                #    logger.info("Matched quoted name: %r" % name)
+                #
                 nameType = t[6]
                 # csvL.append({'t': taxId, 'name': name, 'type': nameType})
                 #
