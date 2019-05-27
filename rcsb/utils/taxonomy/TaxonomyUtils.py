@@ -10,6 +10,7 @@
 # 25-Mar-2019 jdw add tests for merged taxons and method getMergedTaxId()
 #  1-Apr-2019 jdw add method getChildren() for adjacent children.
 # 24-Apr-2019 jdw Add filter option to node list generator and exclude synthetic root from exported tree.
+# 14-May-2019 jdw cast all access to mergeD[]
 ##
 
 import collections
@@ -43,14 +44,14 @@ class TaxonomyUtils(object):
 
     def getMergedTaxId(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
         except Exception:
             pass
         return taxId
 
     def getScientificName(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             return self.__nameD[int(taxId)]['sn']
         except Exception:
             pass
@@ -60,7 +61,7 @@ class TaxonomyUtils(object):
         """ Return the scientific name for the parent of the input taxId at the input lineage depth.
         """
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             iL = self.getLineage(taxId)
             tId = iL[depth]
             return self.__nameD[int(tId)]['sn']
@@ -72,7 +73,7 @@ class TaxonomyUtils(object):
         """ Approximately, the preferred common name.
         """
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             return self.__nameD[int(taxId)]['alt']
         except Exception:
             pass
@@ -80,7 +81,7 @@ class TaxonomyUtils(object):
 
     def getCommonNames(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             return list(set(self.__nameD[int(taxId)]['cn']))
         except Exception:
             pass
@@ -88,7 +89,7 @@ class TaxonomyUtils(object):
 
     def getParentTaxid(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             return self.__nodeD[int(taxId)][0]
         except Exception:
             pass
@@ -97,7 +98,7 @@ class TaxonomyUtils(object):
     def getLineage(self, taxId):
         pList = []
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             pList.append(taxId)
             pt = self.getParentTaxid(taxId)
             while ((pt is not None) and (pt != 1)):
@@ -112,7 +113,7 @@ class TaxonomyUtils(object):
     def getLineageWithNames(self, taxId):
         rL = []
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             pTaxIdL = self.getLineage(taxId)
             for ii, pTaxId in enumerate(pTaxIdL, 1):
                 nmL = [self.getScientificName(pTaxId)]
@@ -131,7 +132,7 @@ class TaxonomyUtils(object):
         """ Return a list of tuples containing taxid & scientific name for
             parents of the input taxid.
         """
-        taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+        taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
         pList = []
         pt = self.getParentTaxid(taxId)
         while ((pt is not None) and (pt != '1')):
@@ -144,7 +145,7 @@ class TaxonomyUtils(object):
     def getLineageScientificNames(self, taxId):
         nmL = []
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             lineage = self.getLineage(taxId)
             nmL = [self.getScientificName(taxid) for taxid in lineage]
         except Exception as e:
@@ -154,7 +155,7 @@ class TaxonomyUtils(object):
     def __getLineageD(self, taxId):
         pD = {}
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             pD[taxId] = True
             pt = self.getParentTaxid(taxId)
             while ((pt is not None) and (pt != 1)):
@@ -174,7 +175,7 @@ class TaxonomyUtils(object):
 
     def isEukaryota(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 2759 in lineage else False
         except Exception as e:
@@ -183,7 +184,7 @@ class TaxonomyUtils(object):
 
     def isVirus(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 10239 in lineage else False
         except Exception as e:
@@ -192,7 +193,7 @@ class TaxonomyUtils(object):
 
     def isArchaea(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 2157 in lineage else False
         except Exception as e:
@@ -203,7 +204,7 @@ class TaxonomyUtils(object):
         """ other/synthetic
         """
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 28384 in lineage else False
         except Exception as e:
@@ -212,7 +213,7 @@ class TaxonomyUtils(object):
 
     def isUnclassified(self, taxId):
         try:
-            taxId = self.__mergeD[taxId] if taxId in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 12908 in lineage else False
         except Exception as e:
