@@ -24,11 +24,10 @@ logger = logging.getLogger(__name__)
 
 
 class TaxonomyUtils(object):
-
     def __init__(self, **kwargs):
         """
         """
-        self.__taxDirPath = kwargs.get("taxDirPath", '.')
+        self.__taxDirPath = kwargs.get("taxDirPath", ".")
         useCache = kwargs.get("useCache", True)
         #
         self.__urlTarget = kwargs.get("ncbiTaxonomyUrl", "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz")
@@ -52,7 +51,7 @@ class TaxonomyUtils(object):
     def getScientificName(self, taxId):
         try:
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
-            return self.__nameD[int(taxId)]['sn']
+            return self.__nameD[int(taxId)]["sn"]
         except Exception:
             pass
         return None
@@ -64,7 +63,7 @@ class TaxonomyUtils(object):
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             iL = self.getLineage(taxId)
             tId = iL[depth]
-            return self.__nameD[int(tId)]['sn']
+            return self.__nameD[int(tId)]["sn"]
         except Exception:
             pass
         return None
@@ -74,7 +73,7 @@ class TaxonomyUtils(object):
         """
         try:
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
-            return self.__nameD[int(taxId)]['alt']
+            return self.__nameD[int(taxId)]["alt"]
         except Exception:
             pass
         return None
@@ -82,7 +81,7 @@ class TaxonomyUtils(object):
     def getCommonNames(self, taxId):
         try:
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
-            return list(set(self.__nameD[int(taxId)]['cn']))
+            return list(set(self.__nameD[int(taxId)]["cn"]))
         except Exception:
             pass
         return None
@@ -101,11 +100,11 @@ class TaxonomyUtils(object):
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             pList.append(taxId)
             pt = self.getParentTaxid(taxId)
-            while ((pt is not None) and (pt != 1)):
+            while (pt is not None) and (pt != 1):
                 pList.append(pt)
                 pt = self.getParentTaxid(pt)
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         #
         pList.reverse()
         return pList
@@ -124,7 +123,7 @@ class TaxonomyUtils(object):
                 for nm in nmL:
                     rL.append((ii, pTaxId, nm))
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         #
         return rL
 
@@ -135,10 +134,11 @@ class TaxonomyUtils(object):
         taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
         pList = []
         pt = self.getParentTaxid(taxId)
-        while ((pt is not None) and (pt != '1')):
+        while (pt is not None) and (pt != "1"):
             pList.append((pt, self.getScientificName(pt)))
             pt = self.getParentTaxid(pt)
         return pList
+
     #
     ##
 
@@ -149,7 +149,7 @@ class TaxonomyUtils(object):
             lineage = self.getLineage(taxId)
             nmL = [self.getScientificName(taxid) for taxid in lineage]
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return nmL
 
     def __getLineageD(self, taxId):
@@ -158,11 +158,11 @@ class TaxonomyUtils(object):
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
             pD[taxId] = True
             pt = self.getParentTaxid(taxId)
-            while ((pt is not None) and (pt != 1)):
+            while (pt is not None) and (pt != 1):
                 pD[pt] = True
                 pt = self.getParentTaxid(pt)
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         return pD
 
     def isBacteria(self, taxId):
@@ -170,7 +170,7 @@ class TaxonomyUtils(object):
             lineage = self.__getLineageD(taxId)
             return True if 2 in lineage else False
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return False
 
     def isEukaryota(self, taxId):
@@ -179,7 +179,7 @@ class TaxonomyUtils(object):
             lineage = self.__getLineageD(taxId)
             return True if 2759 in lineage else False
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return False
 
     def isVirus(self, taxId):
@@ -188,7 +188,7 @@ class TaxonomyUtils(object):
             lineage = self.__getLineageD(taxId)
             return True if 10239 in lineage else False
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return False
 
     def isArchaea(self, taxId):
@@ -197,7 +197,7 @@ class TaxonomyUtils(object):
             lineage = self.__getLineageD(taxId)
             return True if 2157 in lineage else False
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return False
 
     def isOther(self, taxId):
@@ -208,7 +208,7 @@ class TaxonomyUtils(object):
             lineage = self.__getLineageD(taxId)
             return True if 28384 in lineage else False
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return False
 
     def isUnclassified(self, taxId):
@@ -217,7 +217,7 @@ class TaxonomyUtils(object):
             lineage = self.__getLineageD(taxId)
             return True if 12908 in lineage else False
         except Exception as e:
-            logger.exception("Failing for taxId %r with %s" % (taxId, str(e)))
+            logger.exception("Failing for taxId %r with %s", taxId, str(e))
         return False
 
     def exportNodeList(self, startTaxId=1, rootTaxId=1, filterD=None):
@@ -229,20 +229,20 @@ class TaxonomyUtils(object):
         try:
             dL = []
             taxIdList = self.getBfsTraverseList(startTaxId)
-            logger.info("Full taxon list length %d" % len(taxIdList))
+            logger.info("Full taxon list length %d", len(taxIdList))
             if filterD:
                 taxIdList = [tId for tId in taxIdList if tId in filterD]
-            logger.info("Filtered taxon list length %d" % len(taxIdList))
+            logger.info("Filtered taxon list length %d", len(taxIdList))
             # rootTaxids = [131567, 10239, 28384, 12908]
             for taxId in taxIdList:
                 sn = self.getScientificName(taxId)
                 altName = self.getAlternateName(taxId)
-                displayName = sn + ' (' + altName + ')' if altName else sn
+                displayName = sn + " (" + altName + ")" if altName else sn
                 #
                 pTaxId = self.getParentTaxid(taxId)
                 #
-                if not sn or len(sn) < 1:
-                    logger.info("Unexpected null taxon %r sn %r" % (taxId, sn))
+                if sn is None or not sn:
+                    logger.info("Unexpected null taxon %r sn %r", taxId, sn)
                 #
                 # logger.debug("Scientific name (%d): %s (%r)" % (taxId, sn, altName))
                 #
@@ -258,15 +258,15 @@ class TaxonomyUtils(object):
                 if taxId == rootTaxId:
                     continue
                 elif pTaxId == rootTaxId:
-                    d = {'id': str(taxId), 'name': displayName, 'depth': 0}
+                    dD = {"id": str(taxId), "name": displayName, "depth": 0}
                 else:
-                    d = {'id': str(taxId), 'name': displayName, 'parents': [str(pTaxId)], 'depth': len(lL)}
-                dL.append(d)
+                    dD = {"id": str(taxId), "name": displayName, "parents": [str(pTaxId)], "depth": len(lL)}
+                dL.append(dD)
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         #
         taxTreePath = os.path.join(self.__taxDirPath, "taxonomy_node_tree.json")
-        self.__mU.doExport(taxTreePath, dL, format="json", indent=3)
+        self.__mU.doExport(taxTreePath, dL, fmt="json", indent=3)
         return dL
 
     def getBfsTraverseList(self, startTaxId):
@@ -291,8 +291,7 @@ class TaxonomyUtils(object):
             self.__childD = self.__getAdjacentDecendants(self.__nodeD) if not self.__childD else self.__childD
             cL = self.__childD[taxId]
         except Exception as e:
-            logger.debug("For %r failing with %s" % (taxId, str(e)))
-            pass
+            logger.debug("For %r failing with %s", taxId, str(e))
         return cL
         #
 
@@ -300,11 +299,11 @@ class TaxonomyUtils(object):
         """ Convert d[childTaxId] = (parentTaxid,rank) to d[parentTaxid] = [childTaxid, ... ]
         """
         cD = {}
-        logger.debug("Parent node lookup dictionary length %d" % len(nodeD))
-        for childTaxId, (parentTaxId, rank) in nodeD.items():
+        logger.debug("Parent node lookup dictionary length %d", len(nodeD))
+        for childTaxId, (parentTaxId, _) in nodeD.items():
             cD.setdefault(parentTaxId, []).append(childTaxId)
         #
-        logger.debug("Adjacent child lookup dictionary length %d" % len(cD))
+        logger.debug("Adjacent child lookup dictionary length %d", len(cD))
         return cD
 
     #
@@ -315,21 +314,21 @@ class TaxonomyUtils(object):
         taxMergedNodePath = os.path.join(taxDirPath, "taxonomy_nodes-merged-py%s.pic" % str(pyVersion))
         #
         if useCache and self.__mU.exists(taxNamePath) and self.__mU.exists(taxNamePath):
-            tD = self.__mU.doImport(taxNamePath, format="pickle")
-            nD = self.__mU.doImport(taxNodePath, format="pickle")
-            mD = self.__mU.doImport(taxMergedNodePath, format="pickle")
-            logger.debug("Taxonomy name length %d node length %d" % (len(tD), len(nD)))
+            tD = self.__mU.doImport(taxNamePath, fmt="pickle")
+            nD = self.__mU.doImport(taxNodePath, fmt="pickle")
+            mD = self.__mU.doImport(taxMergedNodePath, fmt="pickle")
+            logger.debug("Taxonomy name length %d node length %d", len(tD), len(nD))
         else:
-            logger.info("Fetch taxonomy data from source %s" % urlTarget)
+            logger.info("Fetch taxonomy data from source %s", urlTarget)
             nmL, ndL, mergeL = self.__fetchFromSource(urlTarget, taxDirPath)
             tD = self.__extractNames(nmL)
-            ok = self.__mU.doExport(taxNamePath, tD, format="pickle")
+            ok = self.__mU.doExport(taxNamePath, tD, fmt="pickle")
             #
             nD = self.__extractNodes(ndL)
-            ok = self.__mU.doExport(taxNodePath, nD, format="pickle") and ok
+            ok = self.__mU.doExport(taxNodePath, nD, fmt="pickle") and ok
             #
             mD = self.__mergedTaxids(mergeL)
-            ok = self.__mU.doExport(taxMergedNodePath, mD, format="pickle") and ok
+            ok = self.__mU.doExport(taxMergedNodePath, mD, fmt="pickle") and ok
         #
         return tD, nD, mD
 
@@ -338,17 +337,17 @@ class TaxonomyUtils(object):
         """
         tD = {}
         try:
-            for t in rowL:
-                if len(t) < 2:
+            for tV in rowL:
+                if len(tV) < 2:
                     continue
-                taxId = int(t[0])
-                mergedTaxId = int(t[2])
+                taxId = int(tV[0])
+                mergedTaxId = int(tV[2])
                 tD[taxId] = mergedTaxId
 
-            logger.debug("Taxon merged dictionary length %d \n" % len(tD))
+            logger.debug("Taxon merged dictionary length %d \n", len(tD))
             #
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         return tD
 
     def __extractNames(self, rowL):
@@ -373,23 +372,23 @@ class TaxonomyUtils(object):
                 nameType = t[6]
                 # csvL.append({'t': taxId, 'name': name, 'type': nameType})
                 #
-                if nameType in ['scientific name', 'common name', 'synonym', 'genbank common name']:
+                if nameType in ["scientific name", "common name", "synonym", "genbank common name"]:
                     if taxId not in tD:
                         tD[taxId] = {}
-                    if nameType in ['scientific name']:
-                        tD[taxId]['sn'] = name
+                    if nameType in ["scientific name"]:
+                        tD[taxId]["sn"] = name
                         continue
                     # take first common name
-                    if nameType in ['common name'] and 'alt' not in tD[taxId]:
-                        tD[taxId]['alt'] = name
+                    if nameType in ["common name"] and "alt" not in tD[taxId]:
+                        tD[taxId]["alt"] = name
                     #
-                    tD[taxId].setdefault('cn', []).append(name)
+                    tD[taxId].setdefault("cn", []).append(name)
                 else:
                     pass
-            logger.debug("Taxonomy dictionary length %d \n" % len(tD))
+            logger.debug("Taxonomy dictionary length %d \n", len(tD))
             #
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         return tD
 
     def __extractNodes(self, rowL):
@@ -402,18 +401,18 @@ class TaxonomyUtils(object):
                 parentTaxid = int(fields[2].strip())
                 rank = str(fields[4]).strip()
                 nD[taxid] = (parentTaxid, rank)
-            logger.debug("Taxonomy parent dictionary length %d \n" % len(nD))
+            logger.debug("Taxonomy parent dictionary length %d \n", len(nD))
         except Exception as e:
-            logger.exception("Failing with %s" % str(e))
+            logger.exception("Failing with %s", str(e))
         return nD
 
     def __fetchFromSource(self, urlTarget, taxDirPath):
         """  Fetch the ncbi taxonomy dump and extract name and node data.
         """
-        pth, fn = os.path.split(urlTarget)
+        _, fn = os.path.split(urlTarget)
         #
-        nmL = self.__mU.doImport(urlTarget, format='tdd', rowFormat='list', tarMember='names.dmp', uncomment=False)
-        ndL = self.__mU.doImport(os.path.join(taxDirPath, fn), format='tdd', rowFormat='list', tarMember='nodes.dmp', uncomment=False)
-        mergeL = self.__mU.doImport(os.path.join(taxDirPath, fn), format='tdd', rowFormat='list', tarMember='merged.dmp', uncomment=False)
-        # deleteL = self.__mU.doImport(os.path.join(taxDirPath, fn), format='tdd', rowFormat='list', tarMember='delnodes.dmp')
+        nmL = self.__mU.doImport(urlTarget, fmt="tdd", rowFormat="list", tarMember="names.dmp", uncomment=False)
+        ndL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="nodes.dmp", uncomment=False)
+        mergeL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="merged.dmp", uncomment=False)
+        # deleteL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt='tdd', rowFormat='list', tarMember='delnodes.dmp')
         return nmL, ndL, mergeL
