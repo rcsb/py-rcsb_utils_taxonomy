@@ -10,7 +10,8 @@
                        method to return parent scientific name.
    2-May-2019  - V0.19 improve quote filtering for synonyms and common names.
   14-May-2019  - V0.20 cast lookups to merged taxons
-  23-Jun-2-019 - V0.21 update development workflow
+  23-Jun-2019  - V0.21 update development workflow
+  23-Jul-2019  - V0.22 adjustments to preserve ordering
 ##
 #
 

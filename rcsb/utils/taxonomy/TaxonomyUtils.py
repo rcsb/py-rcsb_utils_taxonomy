@@ -11,6 +11,7 @@
 #  1-Apr-2019 jdw add method getChildren() for adjacent children.
 # 24-Apr-2019 jdw Add filter option to node list generator and exclude synthetic root from exported tree.
 # 14-May-2019 jdw cast all access to mergeD[]
+# 23-Jul-2019 jdw adjustments to preserve ordering.
 ##
 
 import collections
@@ -81,7 +82,7 @@ class TaxonomyUtils(object):
     def getCommonNames(self, taxId):
         try:
             taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
-            return list(set(self.__nameD[int(taxId)]["cn"]))
+            return sorted(set(self.__nameD[int(taxId)]["cn"]))
         except Exception:
             pass
         return None
@@ -118,8 +119,10 @@ class TaxonomyUtils(object):
                 nmL = [self.getScientificName(pTaxId)]
                 cnL = self.getCommonNames(pTaxId)
                 if cnL:
-                    nmL.extend(cnL)
-                nmL = set(nmL)
+                    for cn in cnL:
+                        if cn in nmL:
+                            continue
+                        nmL.append(cn)
                 for nm in nmL:
                     rL.append((ii, pTaxId, nm))
         except Exception as e:
@@ -359,17 +362,17 @@ class TaxonomyUtils(object):
         tD = {}
         try:
             # csvL = []
-            for t in rowL:
-                if len(t) < 7:
+            for tV in rowL:
+                if len(tV) < 7:
                     continue
-                taxId = int(t[0])
-                name = t[2].strip("'")
+                taxId = int(tV[0])
+                name = tV[2].strip("'")
                 #
                 # if reQu.match(name):
                 #    name = name.strip("'")
                 #    logger.info("Matched quoted name: %r" % name)
                 #
-                nameType = t[6]
+                nameType = tV[6]
                 # csvL.append({'t': taxId, 'name': name, 'type': nameType})
                 #
                 if nameType in ["scientific name", "common name", "synonym", "genbank common name"]:
