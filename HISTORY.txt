@@ -12,6 +12,8 @@
   14-May-2019  - V0.20 cast lookups to merged taxons
   23-Jun-2019  - V0.21 update development workflow
   23-Jul-2019  - V0.22 adjustments to preserve ordering
+  14-Aug-2019  - V0.23 adjust cache file management
+  29-Aug-2019  - V0.24 Add module TaxonomyProvider()
 ##
 #
 

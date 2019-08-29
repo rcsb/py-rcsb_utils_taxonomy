@@ -1,5 +1,5 @@
 ##
-# File: TaxonomyUtils.py
+# File: TaxonomyProvider.py
 # Author:  J. Westbrook
 # Date:    9-Mar-2019
 # Version: 0.001
@@ -24,7 +24,7 @@ from rcsb.utils.io.MarshalUtil import MarshalUtil
 logger = logging.getLogger(__name__)
 
 
-class TaxonomyUtils(object):
+class TaxonomyProvider(object):
     def __init__(self, **kwargs):
         """
         """
@@ -41,6 +41,13 @@ class TaxonomyUtils(object):
         self.__childD = {}
         #
         self.__nameD, self.__nodeD, self.__mergeD = self.__reload(self.__urlTarget, self.__taxDirPath, useCache=useCache)
+
+    def testCache(self):
+        # Lengths name 2133961 node 2133961 merge 54768
+        logger.info("Lengths name %d node %d merge %d", len(self.__nameD), len(self.__nodeD), len(self.__mergeD))
+        if (len(self.__nameD) > 2100000) and (len(self.__nodeD) > 2100000) and (len(self.__mergeD) > 54000):
+            return True
+        return False
 
     def getMergedTaxId(self, taxId):
         try:
@@ -315,6 +322,15 @@ class TaxonomyUtils(object):
         taxNamePath = os.path.join(taxDirPath, "taxonomy_names-py%s.pic" % str(pyVersion))
         taxNodePath = os.path.join(taxDirPath, "taxonomy_nodes-py%s.pic" % str(pyVersion))
         taxMergedNodePath = os.path.join(taxDirPath, "taxonomy_nodes-merged-py%s.pic" % str(pyVersion))
+        #
+        logger.debug("Using taxonomy data path %s", taxDirPath)
+        self.__mU.mkdir(taxDirPath)
+        if not useCache:
+            for fp in [taxNamePath, taxNodePath, taxMergedNodePath]:
+                try:
+                    os.remove(fp)
+                except Exception:
+                    pass
         #
         if useCache and self.__mU.exists(taxNamePath) and self.__mU.exists(taxNamePath):
             tD = self.__mU.doImport(taxNamePath, fmt="pickle")

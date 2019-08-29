@@ -1,4 +1,4 @@
-# File:    TaxonomyUtilsTests.py
+# File:    TaxonomyProviderTests.py
 # Author:  J. Westbrook
 # Date:    9-Mar-2019
 # Version: 0.001
@@ -24,7 +24,7 @@ import time
 import unittest
 
 from rcsb.utils.io import __version__
-from rcsb.utils.taxonomy.TaxonomyUtils import TaxonomyUtils
+from rcsb.utils.taxonomy.TaxonomyProvider import TaxonomyProvider
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 TOPDIR = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
@@ -35,7 +35,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-class TaxonomyUtilsTests(unittest.TestCase):
+class TaxonomyProviderTests(unittest.TestCase):
     def setUp(self):
         self.__verbose = True
         self.__useCache = True
@@ -62,7 +62,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
         """
         try:
             taxId = 9606
-            tU = TaxonomyUtils(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(taxDirPath=self.__workPath)
 
             tL = tU.getLineage(taxId)
             logger.debug("Lineage for %d (%d): %r", taxId, len(tL), tL)
@@ -112,7 +112,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
         """
         try:
             taxId = 1354003
-            tU = TaxonomyUtils(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(taxDirPath=self.__workPath)
             taxId = tU.getMergedTaxId(taxId)
             sn = tU.getScientificName(taxId)
             logger.debug("Scientific name (%d): %s", taxId, sn)
@@ -267,7 +267,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
             999953,
         ]
         try:
-            tU = TaxonomyUtils(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(taxDirPath=self.__workPath)
             count = 0
             for taxId in missingTaxIds:
                 if tU.getMergedTaxId(taxId) == taxId:
@@ -296,7 +296,7 @@ class TaxonomyUtilsTests(unittest.TestCase):
                     for fp in fpL:
                         os.remove(fp)
             dL = []
-            tU = TaxonomyUtils(taxDirPath=cachePath, useCache=useCache)
+            tU = TaxonomyProvider(taxDirPath=cachePath, useCache=useCache)
             dL = tU.exportNodeList()
             logger.debug("Node list length %d", len(dL))
             logger.debug("Node list %r", dL[:20])
@@ -307,15 +307,15 @@ class TaxonomyUtilsTests(unittest.TestCase):
 
 def utilReadSuite():
     suiteSelect = unittest.TestSuite()
-    suiteSelect.addTest(TaxonomyUtilsTests("testAccessTaxonomyData"))
-    suiteSelect.addTest(TaxonomyUtilsTests("testLineageTaxonomyData"))
-    suiteSelect.addTest(TaxonomyUtilsTests("testMissingTaxIds"))
+    suiteSelect.addTest(TaxonomyProviderTests("testAccessTaxonomyData"))
+    suiteSelect.addTest(TaxonomyProviderTests("testLineageTaxonomyData"))
+    suiteSelect.addTest(TaxonomyProviderTests("testMissingTaxIds"))
     return suiteSelect
 
 
 def utilTreeSuite():
     suiteSelect = unittest.TestSuite()
-    suiteSelect.addTest(TaxonomyUtilsTests("testExportTree"))
+    suiteSelect.addTest(TaxonomyProviderTests("testExportTree"))
     return suiteSelect
 
 
