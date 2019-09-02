@@ -28,7 +28,7 @@ class TaxonomyProvider(object):
     def __init__(self, **kwargs):
         """
         """
-        self.__taxDirPath = kwargs.get("taxDirPath", ".")
+        self.__taxDirPath = os.path.abspath(kwargs.get("taxDirPath", "."))
         useCache = kwargs.get("useCache", True)
         #
         self.__urlTarget = kwargs.get("ncbiTaxonomyUrl", "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz")
@@ -338,7 +338,7 @@ class TaxonomyProvider(object):
             mD = self.__mU.doImport(taxMergedNodePath, fmt="pickle")
             logger.debug("Taxonomy name length %d node length %d", len(tD), len(nD))
         else:
-            logger.info("Fetch taxonomy data from source %s", urlTarget)
+            logger.info("Fetch taxonomy data from source %s in %s", urlTarget, taxDirPath)
             nmL, ndL, mergeL = self.__fetchFromSource(urlTarget, taxDirPath)
             tD = self.__extractNames(nmL)
             ok = self.__mU.doExport(taxNamePath, tD, fmt="pickle")
