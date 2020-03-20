@@ -40,7 +40,7 @@ class TaxonomyProviderTests(unittest.TestCase):
         self.__verbose = True
         self.__useCache = True
         #
-        self.__workPath = os.path.join(HERE, "test-output")
+        self.__workPath = os.path.join(HERE, "test-output", "NCBI")
         if not self.__useCache:
             fpL = glob.glob(os.path.join(self.__workPath, "*.pic"))
             if fpL:
@@ -51,11 +51,11 @@ class TaxonomyProviderTests(unittest.TestCase):
         #
         self.__startTime = time.time()
         logger.debug("Running tests on version %s", __version__)
-        logger.debug("Starting %s at %s", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()))
+        logger.info("Starting %s at %s", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()))
 
     def tearDown(self):
         endTime = time.time()
-        logger.debug("Completed %s at %s (%.4f seconds)", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()), endTime - self.__startTime)
+        logger.info("Completed %s at %s (%.4f seconds)", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()), endTime - self.__startTime)
 
     def testAccessTaxonomyData(self):
         """ Test the case read and write taxonomy resource file
@@ -108,9 +108,10 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.fail()
 
     def testLineageTaxonomyData(self):
-        """ Test the case read taxonomy resource file
+        """ Test the case taxonomy lineage
         """
         try:
+            # Escherichia coli #1/H766
             taxId = 1354003
             tU = TaxonomyProvider(taxDirPath=self.__workPath)
             taxId = tU.getMergedTaxId(taxId)
@@ -125,6 +126,32 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.assertGreaterEqual(len(tL), 32)
             psn = tU.getParentScientificName(taxId)
             logger.debug("Parent scientific name %s", psn)
+        except Exception as e:
+            logger.exception("Failing with %s", str(e))
+            self.fail()
+
+    def testLineageTaxonomySpecial(self):
+        """ Test the case special virus
+        """
+        try:
+            # Severe acute respiratory syndrome coronavirus 2
+            taxId = 2697049
+            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            taxId = tU.getMergedTaxId(taxId)
+            sn = tU.getScientificName(taxId)
+            logger.info("Scientific name (%d): %s", taxId, sn)
+
+            tL = tU.getLineage(taxId)
+            logger.info("tL(%d) %r", len(tL), tL)
+            #
+            tL = tU.getLineageWithNames(taxId)
+            logger.debug("tL(%d) %r", len(tL), tL)
+            self.assertGreaterEqual(len(tL), 35)
+            psn = tU.getParentScientificName(taxId)
+            logger.debug("Parent scientific name %s", psn)
+            cnL = tU.getCommonNames(taxId)
+            self.assertGreaterEqual(len(cnL), 9)
+            logger.debug("Common names (%d): %r", taxId, cnL)
         except Exception as e:
             logger.exception("Failing with %s", str(e))
             self.fail()
@@ -282,21 +309,8 @@ class TaxonomyProviderTests(unittest.TestCase):
         """ Test export taxonomy data in a particular data structure.
         """
         try:
-            useCache = False
-            if not useCache:
-                cachePath = os.path.join(self.__workPath, "NCBI")
-                if not os.access(cachePath, os.W_OK):
-                    try:
-                        os.makedirs(cachePath, 0o755)
-                    except Exception:
-                        pass
-                ##
-                fpL = glob.glob(os.path.join(cachePath, "*"))
-                if fpL:
-                    for fp in fpL:
-                        os.remove(fp)
             dL = []
-            tU = TaxonomyProvider(taxDirPath=cachePath, useCache=useCache)
+            tU = TaxonomyProvider(taxDirPath=self.__workPath)
             dL = tU.exportNodeList()
             logger.debug("Node list length %d", len(dL))
             logger.debug("Node list %r", dL[:20])

@@ -17,6 +17,7 @@
    1-Sep-2019  - V0.25 Make relative cache paths to absolute
   23-Nov-2019  - V0.26 Move pipeline to py38
    3-Feb-2020  - V0.27 Update dependencies
+  20-Mar-2020  - V0.28 Incorporate additional acroynms as common names.
 
 
 

@@ -391,7 +391,7 @@ class TaxonomyProvider(object):
                 nameType = tV[6]
                 # csvL.append({'t': taxId, 'name': name, 'type': nameType})
                 #
-                if nameType in ["scientific name", "common name", "synonym", "genbank common name"]:
+                if nameType in ["scientific name", "common name", "synonym", "genbank common name", "equivalent name", "acronym", "genbank acronym"]:
                     if taxId not in tD:
                         tD[taxId] = {}
                     if nameType in ["scientific name"]:
