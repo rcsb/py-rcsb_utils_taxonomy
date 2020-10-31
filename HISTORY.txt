@@ -18,6 +18,8 @@
   23-Nov-2019  - V0.26 Move pipeline to py38
    3-Feb-2020  - V0.27 Update dependencies
   20-Mar-2020  - V0.28 Incorporate additional acroynms as common names.
+  30-Oct-2020  - V0.29 add organism name lookup method.
+
 
 
 

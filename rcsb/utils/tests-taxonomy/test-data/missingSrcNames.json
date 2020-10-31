@@ -1,0 +1,1336 @@
+{
+"Mus musculus": [
+"3BP6_1",
+"3BP6_2",
+"3BQU_3",
+"3BQU_4",
+"2R2B_1",
+"2R2B_2",
+"3CMO_1",
+"3CMO_2",
+"2K16_1",
+"3BOV_1",
+"2K17_2",
+"2R2E_1",
+"2R2E_2",
+"2R2H_1",
+"2R2H_2",
+"2K3S_1",
+"2R51_1",
+"3D9A_2",
+"3D9A_3",
+"2JTK_1",
+"2JTN_1",
+"3BGD_1",
+"2JTT_2",
+"2ROC_1",
+"2ROC_2",
+"2ROD_1",
+"2ROD_2",
+"3BGI_1",
+"2QVF_1",
+"2QVI_1",
+"2R1W_1",
+"2R1W_2",
+"2PUU_1",
+"2R1X_1",
+"2R1X_2",
+"2R1Y_1",
+"2R1Y_2",
+"3CWG_1",
+"3CX7_1",
+"2ZL1_2",
+"3CX8_1",
+"2R23_1",
+"2R23_2",
+"2K31_1",
+"2JV9_1",
+"3CPT_2",
+"3BP5_1",
+"3BP5_2"
+],
+"Escherichia coli": [
+"2PQ4_1",
+"2PQ4_2",
+"3BEC_1",
+"3CIO_1",
+"3BP8_1",
+"3BP8_2",
+"3CMR_1",
+"1XRB_1",
+"3CMT_3",
+"3CMU_2",
+"3CMV_1",
+"2K1E_1",
+"3CMX_3",
+"2RBF_3",
+"2R96_1",
+"3CMZ_1",
+"3CT7_1",
+"2JTQ_1",
+"2JTR_1",
+"2R6S_1",
+"2JTS_1",
+"2Q7T_1",
+"2Q7U_1",
+"2K06_1",
+"2Q27_1",
+"2Q28_1",
+"2Q29_1",
+"3CQD_1",
+"2K0D_1",
+"3C7M_1",
+"3CVS_1",
+"2PUR_1",
+"3CB8_1",
+"2R4J_1",
+"3BIG_1",
+"3CW7_1",
+"3CP2_1",
+"3BIH_1",
+"3B8J_1",
+"3CWA_1",
+"2RK1_1",
+"2RH2_1",
+"2RK2_1",
+"3BY8_1",
+"2R4T_1",
+"2R4U_1",
+"2R8T_1",
+"3D1F_1",
+"3D1G_1",
+"3BDF_1",
+"3CWS_1",
+"3C1D_1",
+"3CCD_1",
+"3CWT_1",
+"3BZM_1",
+"3CWU_1",
+"3BZN_1",
+"3BEB_1"
+],
+"Pseudomonas aeruginosa": [
+"2QTK_1",
+"3BPB_1",
+"2Z69_1",
+"3BKQ_1",
+"2RGJ_1",
+"3C04_1"
+],
+"Norwalk virus": [
+"2ZL5_1",
+"2ZL6_1",
+"2ZL7_1",
+"3D26_1"
+],
+"Campylobacter jejuni": [
+"2K33_1",
+"3BSW_1",
+"3BSY_1",
+"2K32_1"
+],
+"Drosophila melanogaster": [
+"1AT0_1",
+"3C9A_1",
+"3C9A_2",
+"2K3K_1",
+"3BUB_1",
+"3BUD_1",
+"3CV5_1",
+"3BUI_1",
+"3CZN_1",
+"3BUP_1",
+"3BUQ_1",
+"3CZS_1",
+"2QDI_1",
+"3BRI_1",
+"3BVT_1",
+"3BVU_1",
+"3BVV_1",
+"3D4Z_1",
+"3BVW_1",
+"3BVX_1",
+"3CA7_1",
+"3CGU_1"
+],
+"Homo sapiens": [
+"3BQU_1",
+"3BQU_2",
+"3C3R_1",
+"3CIP_2",
+"3CS8_1",
+"2RFX_1",
+"2RFX_2",
+"2R28_1",
+"2R28_2",
+"2QF6_1",
+"2K11_1",
+"2PSN_1",
+"2K2G_1",
+"1HTH_1",
+"2JXB_1",
+"2K2J_1",
+"3CSF_1",
+"3BEL_1",
+"2RD7_1",
+"2RD7_2",
+"3CMQ_1",
+"3CXL_1",
+"2K2M_1",
+"2RD8_1",
+"2RD8_2",
+"3CCT_1",
+"2RBA_3",
+"3CAQ_1",
+"2JT0_1",
+"2K3G_1",
+"2K2O_1",
+"2RDA_1",
+"3CSJ_1",
+"3C1V_1",
+"3CCW_1",
+"2PZN_1",
+"3BWF_1",
+"2PPP_1",
+"2R2J_1",
+"2K2R_1",
+"2JXJ_1",
+"3CAV_1",
+"3CCZ_1",
+"2QP6_1",
+"3D0B_1",
+"3BWM_1",
+"3D3E_1",
+"3CST_1",
+"3D94_1",
+"3E2M_1",
+"3BK3_1",
+"2JTF_1",
+"3CN1_1",
+"3CN2_1",
+"2K1R_1",
+"2K1R_2",
+"3CSY_1",
+"3CSY_2",
+"3CU1_1",
+"3CU1_2",
+"3CN3_1",
+"3BX7_1",
+"3BX7_2",
+"2R6K_1",
+"3CN4_1",
+"2RO1_1",
+"3B9L_1",
+"2R3V_1",
+"2Q5G_1",
+"3BX8_1",
+"3B9M_1",
+"3C5F_4",
+"3CTH_1",
+"3C5G_1",
+"2R59_1",
+"3CE3_1",
+"3BWY_1",
+"3CTJ_1",
+"3CE4_1",
+"3CD0_1",
+"2RG3_1",
+"3B9S_1",
+"2QG0_1",
+"2QG2_1",
+"3BUK_1",
+"3CD5_1",
+"3CQA_1",
+"3DDP_1",
+"3CD7_1",
+"2RJK_1",
+"3CH6_1",
+"3D0Y_1",
+"3D0Y_2",
+"2RJL_1",
+"3C7I_1",
+"3CTT_1",
+"2Q5X_1",
+"3CH8_1",
+"3CDA_1",
+"2K0E_1",
+"3CEH_1",
+"2Q5Y_1",
+"3CDB_1",
+"2K0F_1",
+"3CEJ_1",
+"2Z6E_1",
+"2Q8S_1",
+"3DY6_1",
+"3CZR_1",
+"3B2R_1",
+"1VTN_3",
+"2QKY_1",
+"3CEM_1",
+"2JUJ_1",
+"3CVM_1",
+"3CEN_1",
+"3CEN_2",
+"3COG_1",
+"3CB2_1",
+"2QX8_1",
+"2R5T_1",
+"2QX9_1",
+"3B6S_1",
+"3B6S_2",
+"3CFS_1",
+"2RGP_1",
+"3CKI_1",
+"3CKI_2",
+"3BY0_1",
+"3CFV_1",
+"2Q9F_1",
+"3CQU_1",
+"3COO_1",
+"2Q9G_1",
+"3CQV_1",
+"2ZGV_1",
+"2QU2_1",
+"3CQW_1",
+"3CGA_1",
+"3D4N_1",
+"2QU3_1",
+"3CJF_1",
+"3CLD_1",
+"3CJG_1",
+"2QMS_1",
+"3CKP_1",
+"3CWD_1",
+"3BVN_1",
+"3BVN_2",
+"3CGF_1",
+"3D17_1",
+"3D17_2",
+"3CWE_1",
+"3CKR_1",
+"2PKS_1",
+"2PKS_2",
+"2PKS_3",
+"3CHW_2",
+"2P4N_1",
+"2R8U_1",
+"3C3A_1",
+"3CI5_2",
+"3BM9_1",
+"2QMY_1",
+"3C3B_1",
+"3D5F_1",
+"2QMZ_1",
+"3CJO_1",
+"3C3C_1",
+"3CWK_1",
+"3CGO_1",
+"2QUG_1",
+"3C2K_4",
+"2RCW_1",
+"3C2L_4",
+"3CIB_1",
+"3C2M_4",
+"2Q9X_1",
+"3CIC_1",
+"3CBR_1",
+"3CID_1",
+"3CCB_1",
+"3BQM_1",
+"3CCC_1",
+"2JRI_1",
+"2JRI_2",
+"2ZL1_1",
+"2OSF_1",
+"2K27_1",
+"3C3O_1",
+"3BEA_1",
+"3CPT_1",
+"3C3Q_1",
+"2RHP_1"
+],
+"Thermus thermophilus": [
+"2Z1Y_1",
+"2ZDG_1",
+"2ZDH_1",
+"2ZGI_1",
+"3BVD_1",
+"3BVD_2",
+"3BVD_3",
+"2ZDQ_1",
+"3CJQ_1",
+"3CJQ_2",
+"3CJR_1",
+"3CJR_2",
+"3CJS_1",
+"3CJS_2",
+"3CJT_1",
+"3CJT_2",
+"3BYP_1"
+],
+"Azoarcus sp.": [
+"2PGO_1",
+"2PGN_1"
+],
+"Staphylococcus aureus": [
+"3BTI_1",
+"3BTJ_1",
+"3BTL_1",
+"2RDF_1",
+"2PZT_1",
+"2PZU_1",
+"2PZW_1",
+"2RBM_1",
+"2QV7_1",
+"2QDB_1",
+"3BL6_1",
+"2QVL_1",
+"3BVM_1",
+"2PYK_1",
+"3BDC_1",
+"3BT9_1",
+"3BTC_1",
+"3C1E_1",
+"3C1F_1"
+],
+"Citrobacter freundii": [
+"2RFV_1"
+],
+"Hydra": [
+"2K35_1"
+],
+"Clostridium botulinum": [
+"3BON_1",
+"3BOK_1"
+],
+"Bacteriophage T4": [
+"2RB1_1",
+"3DMX_1",
+"3C80_1",
+"3C81_1",
+"3C82_1",
+"3C83_1",
+"3DKE_1",
+"3C7W_1",
+"3C7Y_1",
+"3CDO_1",
+"3C7Z_1",
+"3CDQ_1",
+"3CDR_1",
+"3C8Q_1",
+"3CDT_1",
+"3C8R_1",
+"3C8S_1",
+"3CDV_1"
+],
+"Sambucus nigra": [
+"3CAH_1",
+"3C9Z_1",
+"3CA0_1",
+"3CA1_1",
+"3CA3_1",
+"3CA5_1",
+"3CA6_1"
+],
+"Dictyostelium discoideum": [
+"3CIP_1",
+"3CHW_1",
+"3CI5_1"
+],
+"Vaccinia virus": [
+"2K36_1",
+"3CM3_1"
+],
+"Saccharomyces cerevisiae": [
+"3C9B_1",
+"2JQI_1",
+"3C9D_1",
+"2JQJ_1",
+"3CMM_1",
+"3CMM_2",
+"3CXH_1",
+"3CXH_2",
+"3CXH_3",
+"3CXH_4",
+"3CXH_5",
+"3CXH_6",
+"3CXH_7",
+"3CXH_8",
+"3CXH_9",
+"3CXH_12",
+"2JQL_1",
+"2K3B_1",
+"2K2U_1",
+"3DNY_1",
+"3CUE_1",
+"3CUE_2",
+"3CUE_3",
+"3CUE_4",
+"3CUE_5",
+"2K0A_1",
+"3CK4_1",
+"3CK4_2",
+"2JUC_1",
+"1ASY_2",
+"1ASZ_2",
+"2JSS_1",
+"3CLJ_1",
+"3CRP_1",
+"3CRP_2",
+"3BOA_1",
+"3C0E_1",
+"3CX5_1",
+"3CX5_2",
+"3CX5_3",
+"3CX5_4",
+"3CX5_5",
+"3CX5_6",
+"3CX5_7",
+"3CX5_8",
+"3CX5_9",
+"3CX5_12"
+],
+"Human immunodeficiency virus type 1": [
+"3D1X_1",
+"3BC4_1",
+"3BGB_1",
+"3BGC_1",
+"3CYO_1",
+"3CYW_1"
+],
+"Chlorobium tepidum": [
+"2K37_1",
+"3CP8_1"
+],
+"Macaca mulatta": [
+"2Q3A_1"
+],
+"BACILLUS STEAROTHERMOPHILUS": [
+"3FGX_1"
+],
+"Halobacterium salinarium": [
+"2ZFE_1",
+"1R2N_1"
+],
+"Plasmodium falciparum": [
+"3CXG_1",
+"3C02_1",
+"3C64_1",
+"3CLV_1"
+],
+"Cupiennius salei": [
+"2K38_1"
+],
+"unidentified": [
+"2JVF_1",
+"2JUA_1"
+],
+"Escherichia coli, synthetic": [
+"3CSB_1",
+"3CSG_1"
+],
+"Helicobacter pylori": [
+"2RD3_1",
+"3CXN_1",
+"2K1O_1",
+"3C5Q_1",
+"2QGH_1",
+"3CYP_1",
+"3CYQ_1",
+"3C4U_1"
+],
+"Rattus norvegicus": [
+"2K2F_2",
+"2JWW_1",
+"2R9C_1",
+"2R9F_1",
+"2K1Z_1",
+"3BUK_2",
+"2K0C_1",
+"2R42_1",
+"2RC7_1",
+"2RC8_1",
+"2RCA_1",
+"2RCB_1",
+"3C31_1",
+"3C32_1",
+"3C33_1",
+"3C34_1",
+"3C35_1",
+"3C36_1",
+"2QT5_1",
+"2K20_1",
+"3B3M_1",
+"3B3N_1",
+"3CX7_2",
+"3CX8_2"
+],
+"Zea mays": [
+"3BW7_1"
+],
+"Bothrops jararacussu": [
+"3CXI_1"
+],
+"Bacillus sphaericus": [
+"2QUY_1",
+"2Z71_1"
+],
+"Bacillus subtilis": [
+"2K14_1",
+"2K2Q_2",
+"3D71_2",
+"2RLZ_1",
+"3C73_1",
+"2QHA_1",
+"3BL5_1",
+"2QIF_1",
+"3BR8_1",
+"2JSY_1",
+"2JSZ_1",
+"3BRM_1",
+"3D6Y_2"
+],
+"Streptomyces coelicolor": [
+"3CSD_1",
+"2K0X_1",
+"2K0Y_1",
+"2RHC_1"
+],
+"Gallus gallus": [
+"3LYZ_1",
+"1LYZ_1",
+"2K00_1",
+"4LYZ_1",
+"3B6L_1",
+"2RJV_1",
+"2RJY_1",
+"2LYZ_1",
+"3CQT_1",
+"5LYZ_1",
+"6LYZ_1"
+],
+"Entamoeba histolytica": [
+"3EMU_1"
+],
+"Sus scrofa": [
+"2PSP_1"
+],
+"Vibrio cholerae": [
+"3C1Q_1",
+"3C30_1",
+"3BY9_1"
+],
+"Yellow fever virus": [
+"2JQM_1"
+],
+"Agrobacterium tumefaciens str.": [
+"3BTP_1",
+"3BTP_2"
+],
+"Xenopus laevis": [
+"2JWP_1",
+"2K2W_1",
+"2K3S_2",
+"2K46_1"
+],
+"Burkholderia pseudomallei strain": [
+"3CXK_1"
+],
+"Thermotoga maritima": [
+"3CIW_1",
+"3CIX_1",
+"3BEX_1",
+"3BF1_1",
+"3BF3_1"
+],
+"Bacteriophage P22": [
+"3C9I_1"
+],
+"Vigna radiata": [
+"3C0V_1"
+],
+"Methanosarcina acetivorans": [
+"3D31_1",
+"3D31_2",
+"2K1W_1",
+"2K1X_1"
+],
+"Bacillus stearothermophilus": [
+"3EYZ_1",
+"2R6C_1",
+"2R6C_2",
+"2R6D_1",
+"3EZ5_1",
+"3DUF_1",
+"3DUF_2",
+"3DUF_3",
+"3DV0_1",
+"3DV0_2",
+"3DV0_3",
+"3DVA_1",
+"3DVA_2",
+"3DVA_3",
+"3C65_1",
+"3CMC_1"
+],
+"Carnobacterium maltaromaticum": [
+"2K19_1"
+],
+"Escherichia coli, Bacteriophage T4": [
+"2QB0_2"
+],
+"Trichoderma reesei": [
+"2JVL_1",
+"3C9X_1"
+],
+"Bacillus megaterium": [
+"3BEN_1"
+],
+"Halothermothrix orenii": [
+"2R60_1"
+],
+"Bos taurus": [
+"3C9L_1",
+"3C9M_1",
+"1BTY_1",
+"3GCH_2",
+"3GCH_3",
+"2QN5_2",
+"3DDP_2",
+"3CR2_1",
+"3CR4_1",
+"3CR5_1",
+"2P4N_2",
+"2P4N_3",
+"2RFH_1"
+],
+"Candida albicans": [
+"2QZW_1"
+],
+"Brevibacillus parabrevis": [
+"2K2Q_1"
+],
+"Geobacillus stearothermophilus": [
+"2Q0H_1",
+"2Q8X_1"
+],
+"Arabidopsis thaliana": [
+"2Z51_1",
+"3NUL_1",
+"2RCM_1",
+"3CPM_1"
+],
+"Eubacterium rectale": [
+"3F0H_1",
+"3E0Z_1",
+"3DAO_1"
+],
+"Desulfovibrio vulgaris": [
+"2QL0_1"
+],
+"Toxoplasma gondii": [
+"2K2T_1"
+],
+"Serratia marcescens": [
+"3CSN_1",
+"3CSN_2"
+],
+"Bacillus amyloliquefaciens": [
+"2ZA4_1",
+"2ZA4_2",
+"3DA7_1"
+],
+"Solanum tuberosum": [
+"3CXU_1",
+"3COB_1",
+"3CNZ_1"
+],
+"Amphitrite ornata": [
+"2QFK_1",
+"2QFN_1"
+],
+"Human herpesvirus 1": [
+"2K2U_2"
+],
+"Alcaligenes sp.": [
+"3DLP_1",
+"3CW8_1",
+"3CW9_1"
+],
+"Bacteriophage phi-29": [
+"3CT0_1",
+"3CT1_1",
+"3CSQ_1",
+"3CSR_1",
+"3CT5_1",
+"3CSZ_1"
+],
+"Anabaena sp. (strain PCC 7120)": [
+"2K2V_1"
+],
+"Physeter catodon": [
+"2G10_1"
+],
+"bacteriophage T4": [
+"3H3Y_1"
+],
+"Sulfolobus solfataricus": [
+"2RDI_1",
+"2RDJ_4",
+"2R8G_3"
+],
+"Methanobacterium thermoautotrophicum": [
+"3BPV_1",
+"3BPX_1"
+],
+"Rhipicephalus bursa": [
+"2K2X_1",
+"2K2Y_1",
+"2K2Z_1",
+"2JTO_1"
+],
+"Mycobacterium tuberculosis H37Rv": [
+"3CXY_1"
+],
+"Caulobacter crescentus": [
+"3DR4_1"
+],
+"Sphingomonas sp.": [
+"2ZA9_1"
+],
+"Bacillus anthracis": [
+"3DD6_1",
+"2QIO_1"
+],
+"Neurospora crassa": [
+"3D72_1"
+],
+"Salmonella typhimurium": [
+"3DR6_1",
+"3DR8_1",
+"2QDK_1",
+"3CRE_1",
+"3CRE_2",
+"3CRF_1",
+"3CRF_2"
+],
+"Coprinus cinereus": [
+"2R0F_1",
+"2R0H_1"
+],
+"Bacillus lentus": [
+"3BX1_1"
+],
+"Hordeum vulgare": [
+"3BX1_2"
+],
+"Phormidium laminosum": [
+"2Q5B_1"
+],
+"Lactobacillus plantarum": [
+"2RLW_1",
+"2JUI_1"
+],
+"Danio rerio": [
+"3BK3_2",
+"2Z5T_1"
+],
+"Silicibacter pomeroyi": [
+"3BU7_1"
+],
+"SACCHAROMYCES CEREVISIAE": [
+"2R2V_1"
+],
+"Bordetella parapertussis": [
+"2JPF_1"
+],
+"Cyanothece": [
+"3CSX_1"
+],
+"Agkistrodon rhodostoma": [
+"3BX4_1",
+"3BX4_2"
+],
+"Zaire Ebola virus": [
+"3CSY_3",
+"3CSY_4"
+],
+"Neisseria gonorrhoeae": [
+"3D2M_1"
+],
+"Fusarium oxysporum": [
+"2ZAF_1",
+"2REH_1"
+],
+"Klebsiella pneumoniae": [
+"2QPN_1",
+"3C4O_1",
+"3C4P_1"
+],
+"Pyrobaculum aerophilum": [
+"2RIF_1",
+"2RIH_1"
+],
+"Trypanosoma brucei": [
+"3CV0_1",
+"3CVN_1",
+"3CVP_1",
+"3CVQ_1"
+],
+"Leishmania major": [
+"3B64_1"
+],
+"Neisseria meningitidis serogroup A": [
+"2JZR_1",
+"2JZS_1"
+],
+"Computationally Designed Sequence": [
+"1QYS_1"
+],
+"Synechococcus elongatus": [
+"2QKE_1"
+],
+"Xanthomonas campestris pv. campestris": [
+"3CV3_1",
+"2Q6V_1",
+"3CUY_1"
+],
+"Ancestral Gene": [
+"4LTW_1"
+],
+"Discosoma sp. LW-2004": [
+"2QLH_1",
+"2QLI_1"
+],
+"Neisseria meningitidis serogroup B": [
+"2QKF_1"
+],
+"Rhizobium meliloti": [
+"2ZBB_1",
+"2RIN_1",
+"2RF1_1",
+"2REG_1",
+"2REJ_1"
+],
+"Hepatitis C virus": [
+"2QV1_1",
+"3CDE_1",
+"3CWJ_1"
+],
+"Pseudomonas putida": [
+"2R14_1",
+"3BS0_1",
+"3BRZ_1"
+],
+"Methanococcus jannaschii": [
+"2Z61_1",
+"2RGW_1"
+],
+"Corynebacterium glutamicum": [
+"3CQ4_1",
+"3CQ5_1",
+"3CQ6_1"
+],
+"Bougainvillea spectabilis": [
+"3CTK_1"
+],
+"Bacillus halodurans": [
+"3DA1_1",
+"3DTO_1"
+],
+"Aplysia californica": [
+"3C79_1",
+"3C84_1"
+],
+"Human immunodeficiency virus 1": [
+"3D3T_1",
+"2QMP_1",
+"2R8N_1"
+],
+"Streptococcus pneumoniae": [
+"2ZC3_1",
+"2ZC3_2",
+"2ZC3_3",
+"2ZC4_1",
+"2ZC4_2",
+"2ZC4_3",
+"2ZC5_1",
+"2ZC5_2",
+"2ZC6_1",
+"2ZC6_2"
+],
+"Aeropyrum pernix": [
+"2QR5_1",
+"2ZCT_1"
+],
+"Oryctolagus cuniculus": [
+"2QN1_1",
+"2QN2_1",
+"2JTT_1",
+"2QLN_1",
+"2QN7_1",
+"2QN9_1",
+"2QNB_1",
+"6GPB_1",
+"3BV4_1"
+],
+"Candida Parapsilosis": [
+"3CTM_1"
+],
+"Human adenovirus 16": [
+"3CNC_1"
+],
+"Thermococcus thioreducens": [
+"3DA5_1"
+],
+"Streptomyces wedmorensis": [
+"3D40_1"
+],
+"Halorhodospira halophila": [
+"2QJ5_1",
+"2QJ7_1"
+],
+"Mesorhizobium loti": [
+"3CO2_1"
+],
+"Clostridium difficile": [
+"2QJ6_1"
+],
+"Bombyx mori cypovirus 1": [
+"3CNF_1",
+"3CNF_2"
+],
+"Oryza sativa": [
+"2QN5_1"
+],
+"Vibrio parahaemolyticus RIMD 2210633": [
+"3CQB_1"
+],
+"Viscum album": [
+"2RG9_1",
+"2RG9_2"
+],
+"Emericella nidulans": [
+"2QOJ_1"
+],
+"Pseudomonas fluorescens": [
+"3D7K_1",
+"2Q9T_1"
+],
+"SARS coronavirus": [
+"2QC2_1"
+],
+"Apis mellifera": [
+"3BFA_1",
+"3BFB_1",
+"3BFH_1",
+"3CAB_1",
+"3BJH_1"
+],
+"Synechococcus sp.": [
+"2Z44_1",
+"2Z45_1",
+"2Z46_1"
+],
+"Sulfolobus tokodaii": [
+"2ZDC_1"
+],
+"Influenza A virus": [
+"3CYE_1"
+],
+"Escherichia coli K12": [
+"3CUO_1"
+],
+"Rhizobium leguminosarum bv. trifolii": [
+"2QLW_1"
+],
+"Avian infectious bronchitis virus": [
+"3EWO_1",
+"3EWP_1"
+],
+"Rhizobium loti": [
+"2K0G_1",
+"3CL1_1"
+],
+"Nicotiana glutinosa": [
+"2QHB_3"
+],
+"Enterococcus faecalis": [
+"3DDV_1"
+],
+"Ictalurus punctatus": [
+"2QJD_1",
+"2QHL_1",
+"2QQQ_1",
+"3BDB_1",
+"2QTE_1"
+],
+"Bacteroides thetaiotaomicron": [
+"3CK9_1"
+],
+"Mycobacterium tuberculosis": [
+"2QKX_1",
+"2QHF_1",
+"2R5U_1",
+"3CG5_1",
+"3COV_1",
+"3COW_1",
+"3COY_1",
+"3COZ_1",
+"2JRC_1"
+],
+"Pyrococcus furiosus": [
+"2QLZ_1",
+"2QUF_1"
+],
+"Geobacter sulfurreducens": [
+"3BXU_1"
+],
+"Lymnaea stagnalis": [
+"2ZJU_1",
+"2ZJV_1"
+],
+"Bacteriophage RB69": [
+"3CFO_1",
+"3CFP_3"
+],
+"Lactococcus lactis subsp. lactis": [
+"3CR3_1",
+"3CR3_2"
+],
+"Streptococcus sp. group G": [
+"2K0P_1"
+],
+"Phytolacca acinosa": [
+"2Q8W_1"
+],
+"Acidianus tengchongenses": [
+"3BXV_1"
+],
+"Streptomyces thioluteus": [
+"3CHH_1",
+"3CHI_1",
+"3CHT_1",
+"3CHU_1"
+],
+"Bacteriophage N4": [
+"3C46_1",
+"3C2P_2",
+"3C3L_2"
+],
+"CUPRIAVIDUS METALLIDURANS": [
+"2K0Q_1"
+],
+"Pisum sativum": [
+"2PWJ_1"
+],
+"Moraxella catarrhalis": [
+"2QIH_1"
+],
+"Bovine coronavirus": [
+"3CL4_1"
+],
+"Giardia lamblia": [
+"3CHJ_1",
+"3CHK_1",
+"3CHL_1"
+],
+"Pyrococcus abyssi": [
+"2QEN_1"
+],
+"BACTERIOPHAGE RB69": [
+"3CFR_3"
+],
+"human immunodeficiency virus type 1": [
+"2OT5_1"
+],
+"Musca domestica": [
+"3CB7_1"
+],
+"Medicago truncatula": [
+"2QYO_1"
+],
+"Mycobacterium paratuberculosis": [
+"3CKJ_1",
+"3CKN_1",
+"3CKO_1",
+"3CKQ_1",
+"3CKV_1"
+],
+"Thermosynechococcus vulcanus": [
+"2QDO_1"
+],
+"ESCHERICHIA COLI": [
+"2ZCU_1"
+],
+"Enterobacter sp.": [
+"3CLC_1"
+],
+"Bacillus thuringiensis serovar israelensis": [
+"2RCI_1"
+],
+"Streptococcus mutans": [
+"2ZIC_1",
+"2ZID_1"
+],
+"Bacteriophage P1": [
+"3C28_3",
+"3C29_1"
+],
+"human immunodeficiency virus 1": [
+"2QAK_1"
+],
+"Listeria monocytogenes": [
+"3BZ5_1"
+],
+"Clostridium perfringens": [
+"2RF8_1"
+],
+"Neopetrosia sp.": [
+"2JUY_1"
+],
+"Nesterenkonia abyssinica": [
+"3CP7_1"
+],
+"Streptomyces clavuligerus": [
+"3C4O_2",
+"3C4P_2"
+],
+"Pelodiscus sinensis": [
+"2JR3_1"
+],
+"Yersinia pseudotuberculosis": [
+"3BB8_1"
+],
+"Borrelia burgdorferi": [
+"2PYB_1"
+],
+"Paracoccus denitrificans": [
+"3D4T_1"
+],
+"Lactococcus phage TP901-1": [
+"3BVP_1"
+],
+"Methylosinus trichosporium": [
+"3CHX_1",
+"3CHX_2",
+"3CHX_3",
+"3CHX_4",
+"3CHX_5"
+],
+"Lactobacillus reuteri": [
+"3CI4_1"
+],
+"Yersinia enterocolitica": [
+"3BM8_1"
+],
+"Rhodococcus erythropolis": [
+"2QDY_1",
+"2QDY_2"
+],
+"Agkistrodon contortrix contortrix": [
+"3C05_1",
+"3C05_2"
+],
+"engineered binding protein": [
+"2OTK_2"
+],
+"Streptomyces rubiginosus": [
+"3CWH_1"
+],
+"Bacillus cereus": [
+"3BVS_1"
+],
+"Caenorhabditis elegans": [
+"3C2G_1",
+"3C2H_1"
+],
+"Galdieria sulphuraria": [
+"3BRP_1",
+"3BRP_2"
+],
+"Discosoma striata": [
+"3CGL_1"
+],
+"Clostridium pasteurianum": [
+"3C8Y_1"
+],
+"Azotobacter vinelandii": [
+"2PYG_1"
+],
+"Equus caballus": [
+"3BA2_1"
+],
+"Mycobacterium smegmatis": [
+"3C8Z_1"
+],
+"synthetic gene": [
+"2P0X_1"
+],
+"Eubacterium barkeri": [
+"3CKY_1"
+],
+"Momordica cochinchinensis": [
+"2PO8_1"
+],
+"RHIZOBIUM LOTI": [
+"3CLP_1"
+],
+"Influenza B virus": [
+"3BT6_1",
+"3BT6_2"
+],
+"Todarodes pacificus": [
+"2Z73_1",
+"2ZIY_1"
+],
+"Colwellia psychrerythraea": [
+"3CIA_1"
+],
+"Siphovirus 9NA": [
+"3RIQ_1"
+],
+"Ocimum basilicum": [
+"2QW8_1"
+],
+"Selenomonas ruminantium": [
+"3D1H_1",
+"3D1O_1",
+"3D1Q_1"
+],
+"Paramecium bursaria Chlorella virus IL3A": [
+"3C3I_1"
+],
+"Ralstonia pickettii": [
+"3BRY_1"
+],
+"Alcaligenes faecalis": [
+"2YZ7_1"
+],
+"Escherichia coli O157:H7 EDL933": [
+"3BE5_1",
+"3BE6_1"
+],
+"Lycopersicon esculentum": [
+"2HLG_1"
+],
+"Sulfolobus solfataricus P2": [
+"2QTF_1",
+"2QTH_1"
+],
+"Trypanosoma cruzi": [
+"3CS1_1"
+],
+"Designed synthetic gene": [
+"1MJ0_1"
+],
+"Arthrobacter globiformis": [
+"2YZB_1",
+"2YZC_1",
+"2YZD_1",
+"2YZE_1"
+],
+"Aquifex aeolicus": [
+"2JRL_1"
+]
+}

@@ -39,6 +39,7 @@ class TaxonomyProvider(object):
         self.__nameD = {}
         self.__mergeD = {}
         self.__childD = {}
+        self.__taxIdToNameD = {}
         #
         self.__nameD, self.__nodeD, self.__mergeD = self.__reload(self.__urlTarget, self.__taxDirPath, useCache=useCache)
 
@@ -48,6 +49,27 @@ class TaxonomyProvider(object):
         if (len(self.__nameD) > 2100000) and (len(self.__nodeD) > 2100000) and (len(self.__mergeD) > 54000):
             return True
         return False
+
+    def getTaxId(self, organismName):
+        if not self.__taxIdToNameD:
+            self.__buildTaxIdNameMap()
+        try:
+            ret = self.__taxIdToNameD[organismName.strip().upper()]
+        except Exception:
+            ret = None
+        return ret
+
+    def __buildTaxIdNameMap(self):
+        tD = {}
+        for taxId, nmD in self.__nameD.items():
+            try:
+                tD[nmD["sn"].strip().upper()] = taxId
+                tD[nmD["alt"].strip().upper()] = taxId
+                for nm in sorted(set(self.__nameD[int(taxId)]["cn"])):
+                    tD[nm.strip().upper()] = taxId
+            except Exception:
+                pass
+        self.__taxIdToNameD = tD
 
     def getMergedTaxId(self, taxId):
         try:

@@ -23,7 +23,8 @@ import os
 import time
 import unittest
 
-from rcsb.utils.io import __version__
+from rcsb.utils.io.MarshalUtil import MarshalUtil
+from rcsb.utils.taxonomy import __version__
 from rcsb.utils.taxonomy.TaxonomyProvider import TaxonomyProvider
 
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -41,6 +42,9 @@ class TaxonomyProviderTests(unittest.TestCase):
         self.__useCache = True
         #
         self.__workPath = os.path.join(HERE, "test-output", "NCBI")
+        self.__dataPath = os.path.join(HERE, "test-data")
+        self.__missingNamePath = os.path.join(self.__dataPath, "missingSrcNames.json")
+        #
         if not self.__useCache:
             fpL = glob.glob(os.path.join(self.__workPath, "*.pic"))
             if fpL:
@@ -56,6 +60,16 @@ class TaxonomyProviderTests(unittest.TestCase):
     def tearDown(self):
         endTime = time.time()
         logger.info("Completed %s at %s (%.4f seconds)", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()), endTime - self.__startTime)
+
+    def testNameLookup(self):
+        mU = MarshalUtil(workPath=self.__workPath)
+        nD = mU.doImport(self.__missingNamePath, fmt="json")
+        #
+        tU = TaxonomyProvider(taxDirPath=self.__workPath)
+        for nm in nD:
+            taxId = tU.getTaxId(nm)
+            if not taxId:
+                logger.info("Unknown source name %s (%r)", nm, nD[nm])
 
     def testAccessTaxonomyData(self):
         """ Test the case read and write taxonomy resource file
