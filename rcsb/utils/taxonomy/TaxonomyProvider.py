@@ -19,6 +19,7 @@ import logging
 import os.path
 import sys
 
+from rcsb.utils.io.FileUtil import FileUtil
 from rcsb.utils.io.MarshalUtil import MarshalUtil
 
 logger = logging.getLogger(__name__)
@@ -447,13 +448,32 @@ class TaxonomyProvider(object):
             logger.exception("Failing with %s", str(e))
         return nD
 
+    # def __fetchFromSource(self, urlTarget, taxDirPath):
+    #     """  Fetch the ncbi taxonomy dump and extract name and node data.
+    #     """
+    #     _, fn = os.path.split(urlTarget)
+    #     #
+    #     nmL = self.__mU.doImport(urlTarget, fmt="tdd", rowFormat="list", tarMember="names.dmp", uncomment=False)
+    #     ndL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="nodes.dmp", uncomment=False)
+    #     mergeL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="merged.dmp", uncomment=False)
+    #     # deleteL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt='tdd', rowFormat='list', tarMember='delnodes.dmp')
+    #     return nmL, ndL, mergeL
+    #
     def __fetchFromSource(self, urlTarget, taxDirPath):
-        """  Fetch the ncbi taxonomy dump and extract name and node data.
+        """  Fetch the ncbi taxonomy dump and read name and node data (extract all members)
         """
+        fileU = FileUtil()
         _, fn = os.path.split(urlTarget)
         #
-        nmL = self.__mU.doImport(urlTarget, fmt="tdd", rowFormat="list", tarMember="names.dmp", uncomment=False)
-        ndL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="nodes.dmp", uncomment=False)
-        mergeL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="merged.dmp", uncomment=False)
-        # deleteL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt='tdd', rowFormat='list', tarMember='delnodes.dmp')
+        tarPath = os.path.join(taxDirPath, fn)
+        ok1 = fileU.get(urlTarget, tarPath)
+        ok2 = fileU.unbundleTarfile(tarPath, dirPath=taxDirPath)
+        ok = ok1 & ok2
+        logger.info("%r fetch status is %r", urlTarget, ok)
+        #
+        nmL = self.__mU.doImport(os.path.join(taxDirPath, "names.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        ndL = self.__mU.doImport(os.path.join(taxDirPath, "nodes.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        mergeL = self.__mU.doImport(os.path.join(taxDirPath, "merged.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        # deleteL = self.__mU.doImport(os.path.join(taxDirPath, 'delnodes.dmp'), fmt='tdd', rowFormat='list')
+
         return nmL, ndL, mergeL
