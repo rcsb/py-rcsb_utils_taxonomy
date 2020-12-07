@@ -20,6 +20,7 @@
   20-Mar-2020  - V0.28 Incorporate additional acroynms as common names.
   30-Oct-2020  - V0.29 add organism name lookup method.
    6-Nov-2020  - V0.30 Extract all members of the NCBI bundle
+   7-Dec-2020  - V0.31 Suppress som diagnostic logging output
 
 
 

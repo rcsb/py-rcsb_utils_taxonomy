@@ -27,8 +27,7 @@ logger = logging.getLogger(__name__)
 
 class TaxonomyProvider(object):
     def __init__(self, **kwargs):
-        """
-        """
+        """"""
         self.__taxDirPath = os.path.abspath(kwargs.get("taxDirPath", "."))
         useCache = kwargs.get("useCache", True)
         #
@@ -46,7 +45,7 @@ class TaxonomyProvider(object):
 
     def testCache(self):
         # Lengths name 2133961 node 2133961 merge 54768
-        logger.info("Lengths name %d node %d merge %d", len(self.__nameD), len(self.__nodeD), len(self.__mergeD))
+        logger.debug("Lengths name %d node %d merge %d", len(self.__nameD), len(self.__nodeD), len(self.__mergeD))
         if (len(self.__nameD) > 2100000) and (len(self.__nodeD) > 2100000) and (len(self.__mergeD) > 54000):
             return True
         return False
@@ -74,24 +73,23 @@ class TaxonomyProvider(object):
 
     def getMergedTaxId(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
         except Exception:
             pass
         return taxId
 
     def getScientificName(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             return self.__nameD[int(taxId)]["sn"]
         except Exception:
             pass
         return None
 
     def getParentScientificName(self, taxId, depth=1):
-        """ Return the scientific name for the parent of the input taxId at the input lineage depth.
-        """
+        """Return the scientific name for the parent of the input taxId at the input lineage depth."""
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             iL = self.getLineage(taxId)
             tId = iL[depth]
             return self.__nameD[int(tId)]["sn"]
@@ -100,10 +98,9 @@ class TaxonomyProvider(object):
         return None
 
     def getAlternateName(self, taxId):
-        """ Approximately, the preferred common name.
-        """
+        """Approximately, the preferred common name."""
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             return self.__nameD[int(taxId)]["alt"]
         except Exception:
             pass
@@ -111,7 +108,7 @@ class TaxonomyProvider(object):
 
     def getCommonNames(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             return sorted(set(self.__nameD[int(taxId)]["cn"]))
         except Exception:
             pass
@@ -119,7 +116,7 @@ class TaxonomyProvider(object):
 
     def getParentTaxid(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             return self.__nodeD[int(taxId)][0]
         except Exception:
             pass
@@ -128,7 +125,7 @@ class TaxonomyProvider(object):
     def getLineage(self, taxId):
         pList = []
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             pList.append(taxId)
             pt = self.getParentTaxid(taxId)
             while (pt is not None) and (pt != 1):
@@ -143,7 +140,7 @@ class TaxonomyProvider(object):
     def getLineageWithNames(self, taxId):
         rL = []
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             pTaxIdL = self.getLineage(taxId)
             for ii, pTaxId in enumerate(pTaxIdL, 1):
                 nmL = [self.getScientificName(pTaxId)]
@@ -161,10 +158,10 @@ class TaxonomyProvider(object):
         return rL
 
     def getParentList(self, taxId):
-        """ Return a list of tuples containing taxid & scientific name for
-            parents of the input taxid.
+        """Return a list of tuples containing taxid & scientific name for
+        parents of the input taxid.
         """
-        taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+        taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
         pList = []
         pt = self.getParentTaxid(taxId)
         while (pt is not None) and (pt != "1"):
@@ -178,7 +175,7 @@ class TaxonomyProvider(object):
     def getLineageScientificNames(self, taxId):
         nmL = []
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             lineage = self.getLineage(taxId)
             nmL = [self.getScientificName(taxid) for taxid in lineage]
         except Exception as e:
@@ -188,7 +185,7 @@ class TaxonomyProvider(object):
     def __getLineageD(self, taxId):
         pD = {}
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             pD[taxId] = True
             pt = self.getParentTaxid(taxId)
             while (pt is not None) and (pt != 1):
@@ -208,7 +205,7 @@ class TaxonomyProvider(object):
 
     def isEukaryota(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 2759 in lineage else False
         except Exception as e:
@@ -217,7 +214,7 @@ class TaxonomyProvider(object):
 
     def isVirus(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 10239 in lineage else False
         except Exception as e:
@@ -226,7 +223,7 @@ class TaxonomyProvider(object):
 
     def isArchaea(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 2157 in lineage else False
         except Exception as e:
@@ -234,10 +231,9 @@ class TaxonomyProvider(object):
         return False
 
     def isOther(self, taxId):
-        """ other/synthetic
-        """
+        """other/synthetic"""
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 28384 in lineage else False
         except Exception as e:
@@ -246,7 +242,7 @@ class TaxonomyProvider(object):
 
     def isUnclassified(self, taxId):
         try:
-            taxId = self.__mergeD[int(taxId)] if int(taxId) in self.__mergeD else taxId
+            taxId = self.__mergeD[int(taxId)] if isinstance(taxId, int) and int(taxId) in self.__mergeD else taxId
             lineage = self.__getLineageD(taxId)
             return True if 12908 in lineage else False
         except Exception as e:
@@ -254,9 +250,9 @@ class TaxonomyProvider(object):
         return False
 
     def exportNodeList(self, startTaxId=1, rootTaxId=1, filterD=None):
-        """ Test export taxonomy data in a particular node list data structure.
+        """Test export taxonomy data in a particular node list data structure.
 
-            Note: now excluding root node from node list.
+        Note: now excluding root node from node list.
 
         """
         try:
@@ -303,8 +299,7 @@ class TaxonomyProvider(object):
         return dL
 
     def getBfsTraverseList(self, startTaxId):
-        """Traverse the taxonomy nodes in bfs order starting from startTaxId.
-        """
+        """Traverse the taxonomy nodes in bfs order starting from startTaxId."""
         #
         tL = []
         visited = set([startTaxId])
@@ -329,8 +324,7 @@ class TaxonomyProvider(object):
         #
 
     def __getAdjacentDecendants(self, nodeD):
-        """ Convert d[childTaxId] = (parentTaxid,rank) to d[parentTaxid] = [childTaxid, ... ]
-        """
+        """Convert d[childTaxId] = (parentTaxid,rank) to d[parentTaxid] = [childTaxid, ... ]"""
         cD = {}
         logger.debug("Parent node lookup dictionary length %d", len(nodeD))
         for childTaxId, (parentTaxId, _) in nodeD.items():
@@ -375,8 +369,7 @@ class TaxonomyProvider(object):
         return tD, nD, mD
 
     def __mergedTaxids(self, rowL):
-        """ Extract taxonomy names and synonyms from NCBI taxonomy database dump file row list.
-        """
+        """Extract taxonomy names and synonyms from NCBI taxonomy database dump file row list."""
         tD = {}
         try:
             for tV in rowL:
@@ -393,9 +386,7 @@ class TaxonomyProvider(object):
         return tD
 
     def __extractNames(self, rowL):
-        """ Extract taxonomy names and synonyms from NCBI taxonomy database dump file row list.
-
-        """
+        """Extract taxonomy names and synonyms from NCBI taxonomy database dump file row list."""
         # for matched enclosing quotes
         # reQu = re.compile(r'''(['\"])(.*?)\1$''')
         tD = {}
@@ -434,8 +425,7 @@ class TaxonomyProvider(object):
         return tD
 
     def __extractNodes(self, rowL):
-        """ Extract taxonomy parent relationships from NCBI taxonomy database dump row list.
-        """
+        """Extract taxonomy parent relationships from NCBI taxonomy database dump row list."""
         nD = {}
         try:
             for fields in rowL:
@@ -460,8 +450,7 @@ class TaxonomyProvider(object):
     #     return nmL, ndL, mergeL
     #
     def __fetchFromSource(self, urlTarget, taxDirPath):
-        """  Fetch the ncbi taxonomy dump and read name and node data (extract all members)
-        """
+        """Fetch the ncbi taxonomy dump and read name and node data (extract all members)"""
         fileU = FileUtil()
         _, fn = os.path.split(urlTarget)
         #
