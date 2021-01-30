@@ -42,6 +42,7 @@ class TaxonomyProviderTests(unittest.TestCase):
         self.__useCache = True
         #
         self.__workPath = os.path.join(HERE, "test-output", "NCBI")
+        self.__workPathFb = os.path.join(HERE, "test-output", "NCBI-fallback")
         self.__dataPath = os.path.join(HERE, "test-data")
         self.__missingNamePath = os.path.join(self.__dataPath, "missingSrcNames.json")
         #
@@ -61,6 +62,17 @@ class TaxonomyProviderTests(unittest.TestCase):
         endTime = time.time()
         logger.info("Completed %s at %s (%.4f seconds)", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()), endTime - self.__startTime)
 
+    def testFallback(self):
+        """Test taxonomy data fallback."""
+        try:
+            urlTarget = "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdumpadfadfad.tar.gz"
+            tU = TaxonomyProvider(taxDirPath=self.__workPathFb, ncbiTaxonomyUrl=urlTarget, useCache=False)
+            ok = tU.testCache()
+            self.assertTrue(ok)
+        except Exception as e:
+            logger.exception("Failing with %s", str(e))
+            self.fail()
+
     def testNameLookup(self):
         mU = MarshalUtil(workPath=self.__workPath)
         nD = mU.doImport(self.__missingNamePath, fmt="json")
@@ -72,8 +84,7 @@ class TaxonomyProviderTests(unittest.TestCase):
                 logger.info("Unknown source name %s (%r)", nm, nD[nm])
 
     def testAccessTaxonomyData(self):
-        """ Test the case read and write taxonomy resource file
-        """
+        """Test the case read and write taxonomy resource file"""
         try:
             taxId = 9606
             tU = TaxonomyProvider(taxDirPath=self.__workPath)
@@ -122,8 +133,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.fail()
 
     def testLineageTaxonomyData(self):
-        """ Test the case taxonomy lineage
-        """
+        """Test the case taxonomy lineage"""
         try:
             # Escherichia coli #1/H766
             taxId = 1354003
@@ -145,8 +155,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.fail()
 
     def testLineageTaxonomySpecial(self):
-        """ Test the case special virus
-        """
+        """Test the case special virus"""
         try:
             # Severe acute respiratory syndrome coronavirus 2
             taxId = 2697049
@@ -171,8 +180,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.fail()
 
     def testMissingTaxIds(self):
-        """
-        """
+        """"""
         missingTaxIds = [
             100641,
             10559,
@@ -320,8 +328,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.fail()
 
     def testExportTree(self):
-        """ Test export taxonomy data in a particular data structure.
-        """
+        """Test export taxonomy data in a particular data structure."""
         try:
             dL = []
             tU = TaxonomyProvider(taxDirPath=self.__workPath)

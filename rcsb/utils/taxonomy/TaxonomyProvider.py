@@ -355,7 +355,7 @@ class TaxonomyProvider(object):
             mD = self.__mU.doImport(taxMergedNodePath, fmt="pickle")
             logger.debug("Taxonomy name length %d node length %d", len(tD), len(nD))
         else:
-            logger.info("Fetch taxonomy data from source %s in %s", urlTarget, taxDirPath)
+
             nmL, ndL, mergeL = self.__fetchFromSource(urlTarget, taxDirPath)
             tD = self.__extractNames(nmL)
             ok = self.__mU.doExport(taxNamePath, tD, fmt="pickle")
@@ -451,14 +451,31 @@ class TaxonomyProvider(object):
     #
     def __fetchFromSource(self, urlTarget, taxDirPath):
         """Fetch the ncbi taxonomy dump and read name and node data (extract all members)"""
+        logger.info("Fetch taxonomy data from source %s in %s", urlTarget, taxDirPath)
+        #
         fileU = FileUtil()
         _, fn = os.path.split(urlTarget)
         #
-        tarPath = os.path.join(taxDirPath, fn)
-        ok1 = fileU.get(urlTarget, tarPath)
-        ok2 = fileU.unbundleTarfile(tarPath, dirPath=taxDirPath)
-        ok = ok1 & ok2
+        ok = False
+        try:
+            tarPath = os.path.join(taxDirPath, fn)
+            ok1 = fileU.get(urlTarget, tarPath)
+            ok2 = fileU.unbundleTarfile(tarPath, dirPath=taxDirPath)
+            ok = ok1 & ok2
+        except Exception as e:
+            logger.exception("Failing taxonomy fetch from %r with %s", urlTarget, str(e))
         logger.info("%r fetch status is %r", urlTarget, ok)
+        # ----  fallback ----
+        if not ok:
+            logger.info("Fetching taxonomy data from fallback to %s", taxDirPath)
+            ok3 = True
+            for fn in ["names", "nodes", "merged"]:
+                filePath = os.path.join(taxDirPath, "%s.dmp.gz" % fn)
+                urlFallback = "https://github.com/rcsb/py-rcsb_exdb_assets/raw/master/fall_back/NCBI/%s.dmp.gz" % fn
+                ok1 = fileU.get(urlFallback, filePath)
+                ok2 = fileU.uncompress(filePath, outputDir=taxDirPath)
+                ok3 = ok1 and ok2 and ok3
+            logger.info("Taxonomy fallback fetch status is %r", ok3)
         #
         nmL = self.__mU.doImport(os.path.join(taxDirPath, "names.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
         ndL = self.__mU.doImport(os.path.join(taxDirPath, "nodes.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
