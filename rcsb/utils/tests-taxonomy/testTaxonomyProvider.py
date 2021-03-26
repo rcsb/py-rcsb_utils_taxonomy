@@ -339,6 +339,40 @@ class TaxonomyProviderTests(unittest.TestCase):
             logger.exception("Failing with %s", str(e))
             self.fail()
 
+    def testGraphOps(self):
+        """Test graph operations."""
+        try:
+            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            #
+            startTime = time.time()
+            lcTaxId = tU.getLowestCommonAncestor(63221, 741158)
+            logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
+            self.assertEqual(9606, lcTaxId)
+            #
+            startTime = time.time()
+            lcTaxId = tU.getLowestCommonAncestor(9606, 9606)
+            logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
+            self.assertEqual(9606, lcTaxId)
+            #
+            startTime = time.time()
+            lcTaxId = tU.getLowestCommonAncestor(9606, 741158)
+            logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
+            self.assertEqual(9606, lcTaxId)
+            #
+            startTime = time.time()
+            lcTaxId = tU.getLowestCommonAncestor(866768, 2569093)
+            logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
+            self.assertEqual(2, lcTaxId)
+            #
+            startTime = time.time()
+            txL = [(63221, 741158), (9606, 9606), (9606, 741158), (866768, 2569093)]
+            lcTaxIdPairD = tU.getLowestCommonAncestors(txL)
+            logger.info("List LCA %r in (%.4f seconds)", lcTaxIdPairD, time.time() - startTime)
+            #
+        except Exception as e:
+            logger.exception("Failing with %s", str(e))
+            self.fail()
+
 
 def utilReadSuite():
     suiteSelect = unittest.TestSuite()
@@ -351,6 +385,7 @@ def utilReadSuite():
 def utilTreeSuite():
     suiteSelect = unittest.TestSuite()
     suiteSelect.addTest(TaxonomyProviderTests("testExportTree"))
+    suiteSelect.addTest(TaxonomyProviderTests("testGraphOps"))
     return suiteSelect
 
 

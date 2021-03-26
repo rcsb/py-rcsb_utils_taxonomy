@@ -19,6 +19,8 @@ import logging
 import os.path
 import sys
 
+import networkx
+
 from rcsb.utils.io.FileUtil import FileUtil
 from rcsb.utils.io.MarshalUtil import MarshalUtil
 
@@ -40,6 +42,7 @@ class TaxonomyProvider(object):
         self.__mergeD = {}
         self.__childD = {}
         self.__taxIdToNameD = {}
+        self.__graph = None
         #
         self.__nameD, self.__nodeD, self.__mergeD = self.__reload(self.__urlTarget, self.__taxDirPath, useCache=useCache)
 
@@ -483,3 +486,68 @@ class TaxonomyProvider(object):
         # deleteL = self.__mU.doImport(os.path.join(taxDirPath, 'delnodes.dmp'), fmt='tdd', rowFormat='list')
 
         return nmL, ndL, mergeL
+
+    def getLowestCommonAncestorGen(self, taxId1, taxId2):
+        """Return the lowest common ancestor for the input pair of taxonomy identifiers or None
+
+        Args:
+            taxId1 (int): first taxonomy identifier
+            taxId2 (int): second taxonomy identifier
+
+        Returns:
+            (int): taxonomy identifier for the lowest common ancestor or None
+        """
+        try:
+            if not self.__graph:
+                self.__graph = self.__makeGraph()
+            return networkx.lowest_common_ancestor(self.__graph, taxId1, taxId2) if self.__graph else None
+        except Exception as e:
+            logger.exception("Failing for %r %r with %s", taxId1, taxId2, str(e))
+        return None
+
+    def getLowestCommonAncestor(self, taxId1, taxId2):
+        """Return the lowest common ancestor for the input pair of taxonomy identifiers or None.
+
+        Args:
+            taxId1 (int): first taxonomy identifier
+            taxId2 (int): second taxonomy identifier
+
+        Returns:
+            (int): taxonomy identifier for the lowest common ancestor or None
+        """
+        if not self.__graph:
+            self.__graph = self.__makeGraph()
+        rD = dict(networkx.tree_all_pairs_lowest_common_ancestor(self.__graph, root=None, pairs=[(taxId1, taxId2)]))
+        return rD[(taxId1, taxId2)] if (taxId1, taxId2) in rD else None
+
+    def getLowestCommonAncestors(self, taxIdPairList):
+        """Return the lowest common ancestors for the input pair list of taxonomy identifiers.
+
+        Args:
+            taxIdPairList ([type]): [description]
+
+        Returns:
+            (dict): {(taxid1,taxid2): lca), ... }
+        """
+        try:
+            if not self.__graph:
+                self.__graph = self.__makeGraph()
+            return dict(networkx.tree_all_pairs_lowest_common_ancestor(self.__graph, root=None, pairs=taxIdPairList))
+        except Exception as e:
+            logger.input("Failing for %r with %s", taxIdPairList, str(e))
+        return {}
+
+    def __makeGraph(self):
+        """Create the networkx graph object..."""
+        try:
+            graph = networkx.DiGraph()
+            graph.name = "Taxonomy"
+            for taxId, (parentTaxId, rank) in self.__nodeD.items():
+                if taxId == parentTaxId:
+                    continue
+                graph.add_node(taxId, rank=rank)
+                graph.add_edge(parentTaxId, taxId)
+            return graph
+        except Exception as e:
+            logger.exception("Failing with %s", str(e))
+        return None
