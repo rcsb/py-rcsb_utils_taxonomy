@@ -551,3 +551,39 @@ class TaxonomyProvider(object):
         except Exception as e:
             logger.exception("Failing with %s", str(e))
         return None
+
+    def compareTaxons(self, queryTaxId, refTaxId):
+        try:
+            lcaTaxId = None
+            status = None
+            rank = None
+            if queryTaxId == refTaxId:
+                status = "matched"
+                lcaTaxId = queryTaxId
+                rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
+                return status, lcaTaxId, rank
+            #
+            refTaxIdL = self.getLineage(refTaxId)
+            if queryTaxId in refTaxIdL:
+                status = "queryIsParent"
+                lcaTaxId = queryTaxId
+                rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
+                return status, lcaTaxId, rank
+            #
+            queryTaxIdL = self.getLineage(queryTaxId)
+            if refTaxId in queryTaxIdL:
+                status = "queryIsChild"
+                lcaTaxId = refTaxId
+                rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
+                return status, lcaTaxId, rank
+            #
+            lcaTaxId = None
+            for taxId in reversed(queryTaxIdL):
+                if taxId in refTaxIdL:
+                    lcaTaxId = taxId
+                    status = "lca"
+                    break
+            rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
+        except Exception as e:
+            logger.exception("Failing for %r and %r with %s", queryTaxId, refTaxId, str(e))
+        return status, lcaTaxId, rank

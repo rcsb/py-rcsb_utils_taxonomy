@@ -369,6 +369,11 @@ class TaxonomyProviderTests(unittest.TestCase):
             lcTaxIdPairD = tU.getLowestCommonAncestors(txL)
             logger.info("List LCA %r in (%.4f seconds)", lcTaxIdPairD, time.time() - startTime)
             #
+            for taxPair in txL:
+                startTime = time.time()
+                status, lcTaxId, rank = tU.compareTaxons(taxPair[0], taxPair[1])
+                logger.info("status %r lca %r rank %r in (%.4f seconds)", status, lcTaxId, rank, time.time() - startTime)
+
         except Exception as e:
             logger.exception("Failing with %s", str(e))
             self.fail()
