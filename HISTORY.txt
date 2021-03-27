@@ -24,6 +24,7 @@
   30-Jan-2021  - V0.32 Add fallback for NCBI taxonomy data source
   26-Mar-2021  - V0.33 Add lowest common ancestor methods and update pipeline
   26-Mar-2021  - V0.34 Add compareTaxons() method
+  27-Mar-2021  - V0.35 Adjust comparison status return codes
 
 
 

@@ -565,14 +565,14 @@ class TaxonomyProvider(object):
             #
             refTaxIdL = self.getLineage(refTaxId)
             if queryTaxId in refTaxIdL:
-                status = "queryIsParent"
+                status = "queryIsAncestor"
                 lcaTaxId = queryTaxId
                 rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
                 return status, lcaTaxId, rank
             #
             queryTaxIdL = self.getLineage(queryTaxId)
             if refTaxId in queryTaxIdL:
-                status = "queryIsChild"
+                status = "queryIsDescendant"
                 lcaTaxId = refTaxId
                 rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
                 return status, lcaTaxId, rank
@@ -581,7 +581,7 @@ class TaxonomyProvider(object):
             for taxId in reversed(queryTaxIdL):
                 if taxId in refTaxIdL:
                     lcaTaxId = taxId
-                    status = "lca"
+                    status = "lowest common ancestor"
                     break
             rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
         except Exception as e:

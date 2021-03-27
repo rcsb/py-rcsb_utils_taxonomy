@@ -1,1 +1,2 @@
 rcsb.utils.io >= 0.52
+networkx >= 2.4
