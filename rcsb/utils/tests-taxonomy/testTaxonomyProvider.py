@@ -349,6 +349,8 @@ class TaxonomyProviderTests(unittest.TestCase):
             logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
             self.assertEqual(9606, lcTaxId)
             #
+
+            #
             startTime = time.time()
             lcTaxId = tU.getLowestCommonAncestor(9606, 9606)
             logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)

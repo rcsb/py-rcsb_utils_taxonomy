@@ -17,6 +17,7 @@
 import collections
 import logging
 import os.path
+from pickle import NONE
 import sys
 
 import networkx
@@ -80,6 +81,13 @@ class TaxonomyProvider(object):
         except Exception:
             pass
         return taxId
+
+    def getRank(self, taxId):
+        try:
+            rank = self.__nodeD[int(taxId)][1] if isinstance(taxId, int) and int(taxId) in self.__nodeD else None
+        except Exception:
+            pass
+        return rank
 
     def getScientificName(self, taxId):
         try:
@@ -553,29 +561,50 @@ class TaxonomyProvider(object):
         return None
 
     def compareTaxons(self, queryTaxId, refTaxId):
+        """Return a summary status, lowest common ancestor and lca rank for input
+        query and reference taxonomy identifiers.
+
+                Args:
+                    queryTaxId (int): query taxonomy identifier
+                    refTaxId (int): reference taxonomy identifier
+
+                Returns:
+                    (tuple): status, lcaTaxId, lcaRank (lca: lowerest common ancestor)
+
+                    status: matched, query is ancestor, query is descendant, alternate subspecies
+                            alternate variants, alternate strain/serotype/isolate/genotype,
+                            alternate strain, orthologous match (by lca), lowest common ancestor.
+
+        """
         try:
             lcaTaxId = None
             status = None
-            rank = None
+            lcaRank = NONE
+            refRank = self.getRank(refTaxId)
+            queryRank = self.getRank(queryTaxId)
             if queryTaxId == refTaxId:
                 status = "matched"
                 lcaTaxId = queryTaxId
-                rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
-                return status, lcaTaxId, rank
+                lcaRank = self.getRank(lcaTaxId)
+                return status, lcaTaxId, lcaRank
             #
             refTaxIdL = self.getLineage(refTaxId)
             if queryTaxId in refTaxIdL:
-                status = "queryIsAncestor"
+                status = "query is ancestor"
                 lcaTaxId = queryTaxId
-                rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
-                return status, lcaTaxId, rank
+                lcaRank = self.getRank(lcaTaxId)
+                return (
+                    status,
+                    lcaTaxId,
+                    lcaRank,
+                )
             #
             queryTaxIdL = self.getLineage(queryTaxId)
             if refTaxId in queryTaxIdL:
-                status = "queryIsDescendant"
+                status = "query is descendant"
                 lcaTaxId = refTaxId
-                rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
-                return status, lcaTaxId, rank
+                lcaRank = self.getRank(lcaTaxId)
+                return status, lcaTaxId, lcaRank
             #
             lcaTaxId = None
             for taxId in reversed(queryTaxIdL):
@@ -583,7 +612,45 @@ class TaxonomyProvider(object):
                     lcaTaxId = taxId
                     status = "lowest common ancestor"
                     break
-            rank = self.__nodeD[lcaTaxId][1] if lcaTaxId in self.__nodeD else None
+            lcaRank = self.getRank(lcaTaxId)
+            if lcaRank and lcaRank in ["serotype", "serogroup"]:
+                status = "alternate variants"
+            elif lcaRank and lcaRank in [
+                "clade",
+                "class",
+                "family",
+                "genotype",
+                "genus",
+                "infraorder",
+                "isolate",
+                "kingdom",
+                "order",
+                "parvorder",
+                "phylum",
+                "subfamily",
+                "subgenus",
+                "superkingdom",
+                "superorder",
+                "tribe",
+                "species group",
+            ]:
+                status = "orthologous match (by lca)"
+            elif lcaRank and "species" in lcaRank and refRank and "subspecies" in refRank and queryRank and "subspecies" in queryRank:
+                status = "alternate subspecies"
+            elif (
+                lcaRank
+                and "species" in lcaRank
+                and refRank
+                and refRank in ["strain", "serotype", "serovar", "serogroup", "biotype", "isolate", "no rank", "genotype"]
+                and queryRank
+                and queryRank in ["strain", "serotype", "serovar", "serogroup", "biotype", "isolate", "no rank", "genotype"]
+            ):
+                status = "alternate strain/serotype/isolate/genotype"
+            elif lcaRank and "no rank" in lcaRank and refRank and refRank in ["species", "strain"] and queryRank and queryRank in ["species", "strain"]:
+                status = "orthologous match (by lca)"
+            elif lcaRank and lcaRank in ["strain"] and refRank and refRank in ["no rank", "strain"] and queryRank and queryRank in ["no rank", "strain"]:
+                status = "alternate strain"
+
         except Exception as e:
             logger.exception("Failing for %r and %r with %s", queryTaxId, refTaxId, str(e))
-        return status, lcaTaxId, rank
+        return status, lcaTaxId, lcaRank

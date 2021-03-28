@@ -25,6 +25,7 @@
   26-Mar-2021  - V0.33 Add lowest common ancestor methods and update pipeline
   26-Mar-2021  - V0.34 Add compareTaxons() method
   27-Mar-2021  - V0.35 Adjust comparison status return codes
+  28-Mar-2021  - V0.36 Further adjustments comparison status return codes
 
 
 
