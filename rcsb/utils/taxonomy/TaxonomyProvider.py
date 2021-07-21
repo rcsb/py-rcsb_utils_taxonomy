@@ -12,6 +12,7 @@
 # 24-Apr-2019 jdw Add filter option to node list generator and exclude synthetic root from exported tree.
 # 14-May-2019 jdw cast all access to mergeD[]
 # 23-Jul-2019 jdw adjustments to preserve ordering.
+# 21-Jul-2021 jdw  Make this provider a subclass of StashableBase
 ##
 
 import collections
@@ -24,17 +25,26 @@ import networkx
 
 from rcsb.utils.io.FileUtil import FileUtil
 from rcsb.utils.io.MarshalUtil import MarshalUtil
+from rcsb.utils.io.StashableBase import StashableBase
 
 logger = logging.getLogger(__name__)
 
 
-class TaxonomyProvider(object):
+class TaxonomyProvider(StashableBase):
     def __init__(self, **kwargs):
-        """"""
-        self.__taxDirPath = os.path.abspath(kwargs.get("taxDirPath", "."))
+        """ """
+        dirName = "NCBI"
+        if "cachePath" in kwargs:
+            cachePath = os.path.abspath(kwargs.get("cachePath", None))
+            self.__taxDirPath = os.path.join(cachePath, dirName)
+        else:
+            self.__taxDirPath = os.path.abspath(kwargs.get("taxDirPath", "."))
+            cachePath, dirName = os.path.split(os.path.abspath(self.__taxDirPath))
+        super(TaxonomyProvider, self).__init__(cachePath, [dirName])
+
         useCache = kwargs.get("useCache", True)
         #
-        self.__urlTarget = kwargs.get("ncbiTaxonomyUrl", "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz")
+        self.__urlTarget = kwargs.get("ncbiTaxonomyUrl", "https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz")
         #
         self.__mU = MarshalUtil(workPath=self.__taxDirPath)
         #
@@ -346,6 +356,7 @@ class TaxonomyProvider(object):
 
     #
     def __reload(self, urlTarget, taxDirPath, useCache=True):
+        tD = nD = mD = {}
         pyVersion = sys.version_info[0]
         taxNamePath = os.path.join(taxDirPath, "taxonomy_names-py%s.pic" % str(pyVersion))
         taxNodePath = os.path.join(taxDirPath, "taxonomy_nodes-py%s.pic" % str(pyVersion))
@@ -365,7 +376,7 @@ class TaxonomyProvider(object):
             nD = self.__mU.doImport(taxNodePath, fmt="pickle")
             mD = self.__mU.doImport(taxMergedNodePath, fmt="pickle")
             logger.debug("Taxonomy name length %d node length %d", len(tD), len(nD))
-        else:
+        elif not useCache:
 
             nmL, ndL, mergeL = self.__fetchFromSource(urlTarget, taxDirPath)
             tD = self.__extractNames(nmL)
@@ -376,6 +387,28 @@ class TaxonomyProvider(object):
             #
             mD = self.__mergedTaxids(mergeL)
             ok = self.__mU.doExport(taxMergedNodePath, mD, fmt="pickle") and ok
+            # Cleanup
+            fnList = [
+                "citations.dmp",
+                "delnodes.dmp",
+                "division.dmp",
+                "gc.prt",
+                "gencode.dmp",
+                "merged.dmp",
+                "names.dmp",
+                "nodes.dmp",
+                "readme.txt",
+                "taxdump.tar.gz",
+                "names.dmp.gz",
+                "nodes.dmp.gz",
+                "merged.dmp.gz",
+            ]
+            for fn in fnList:
+                try:
+                    fp = os.path.join(taxDirPath, fn)
+                    os.remove(fp)
+                except Exception:
+                    pass
         #
         return tD, nD, mD
 
@@ -449,17 +482,6 @@ class TaxonomyProvider(object):
             logger.exception("Failing with %s", str(e))
         return nD
 
-    # def __fetchFromSource(self, urlTarget, taxDirPath):
-    #     """  Fetch the ncbi taxonomy dump and extract name and node data.
-    #     """
-    #     _, fn = os.path.split(urlTarget)
-    #     #
-    #     nmL = self.__mU.doImport(urlTarget, fmt="tdd", rowFormat="list", tarMember="names.dmp", uncomment=False)
-    #     ndL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="nodes.dmp", uncomment=False)
-    #     mergeL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt="tdd", rowFormat="list", tarMember="merged.dmp", uncomment=False)
-    #     # deleteL = self.__mU.doImport(os.path.join(taxDirPath, fn), fmt='tdd', rowFormat='list', tarMember='delnodes.dmp')
-    #     return nmL, ndL, mergeL
-    #
     def __fetchFromSource(self, urlTarget, taxDirPath):
         """Fetch the ncbi taxonomy dump and read name and node data (extract all members)"""
         logger.info("Fetch taxonomy data from source %s in %s", urlTarget, taxDirPath)
@@ -469,13 +491,17 @@ class TaxonomyProvider(object):
         #
         ok = False
         try:
+            ok = True
             tarPath = os.path.join(taxDirPath, fn)
             ok1 = fileU.get(urlTarget, tarPath)
-            ok2 = fileU.unbundleTarfile(tarPath, dirPath=taxDirPath)
-            ok = ok1 & ok2
+            ok = ok and ok1
+            if ok:
+                ok1 = fileU.unbundleTarfile(tarPath, dirPath=taxDirPath)
+                ok = ok and ok1
         except Exception as e:
             logger.exception("Failing taxonomy fetch from %r with %s", urlTarget, str(e))
-        logger.info("%r fetch status is %r", urlTarget, ok)
+        #
+        logger.info("Taxonomy primary fetch status (%r) using %r", ok, urlTarget)
         # ----  fallback ----
         if not ok:
             logger.info("Fetching taxonomy data from fallback to %s", taxDirPath)

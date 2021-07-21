@@ -17,6 +17,7 @@ __author__ = "John Westbrook"
 __email__ = "jwest@rcsb.rutgers.edu"
 __license__ = "Apache 2.0"
 
+from curses import use_default_colors
 import glob
 import logging
 import os
@@ -41,13 +42,13 @@ class TaxonomyProviderTests(unittest.TestCase):
         self.__verbose = True
         self.__useCache = True
         #
-        self.__workPath = os.path.join(HERE, "test-output", "NCBI")
-        self.__workPathFb = os.path.join(HERE, "test-output", "NCBI-fallback")
+        self.__cachePath = os.path.join(HERE, "test-output", "CACHE")
+        self.__cachePathFb = os.path.join(HERE, "test-output", "CACHE-fallback")
         self.__dataPath = os.path.join(HERE, "test-data")
         self.__missingNamePath = os.path.join(self.__dataPath, "missingSrcNames.json")
         #
         if not self.__useCache:
-            fpL = glob.glob(os.path.join(self.__workPath, "*.pic"))
+            fpL = glob.glob(os.path.join(self.__cachePath, "*.pic"))
             if fpL:
                 for fp in fpL:
                     os.remove(fp)
@@ -62,32 +63,40 @@ class TaxonomyProviderTests(unittest.TestCase):
         endTime = time.time()
         logger.info("Completed %s at %s (%.4f seconds)", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()), endTime - self.__startTime)
 
+    def testAANameLookup(self):
+
+        #
+        tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
+        ok = tU.testCache()
+        self.assertFalse(ok)
+        #
+        tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=False)
+        ok = tU.testCache()
+        self.assertTrue(ok)
+        #
+        mU = MarshalUtil(workPath=self.__cachePath)
+        nD = mU.doImport(self.__missingNamePath, fmt="json")
+        for nm in nD:
+            taxId = tU.getTaxId(nm)
+            if not taxId:
+                logger.debug("Unknown source name %s (%r)", nm, nD[nm])
+
     def testFallback(self):
         """Test taxonomy data fallback."""
         try:
             urlTarget = "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdumpadfadfad.tar.gz"
-            tU = TaxonomyProvider(taxDirPath=self.__workPathFb, ncbiTaxonomyUrl=urlTarget, useCache=False)
+            tU = TaxonomyProvider(cachePath=self.__cachePathFb, ncbiTaxonomyUrl=urlTarget, useCache=False)
             ok = tU.testCache()
             self.assertTrue(ok)
         except Exception as e:
             logger.exception("Failing with %s", str(e))
             self.fail()
 
-    def testNameLookup(self):
-        mU = MarshalUtil(workPath=self.__workPath)
-        nD = mU.doImport(self.__missingNamePath, fmt="json")
-        #
-        tU = TaxonomyProvider(taxDirPath=self.__workPath)
-        for nm in nD:
-            taxId = tU.getTaxId(nm)
-            if not taxId:
-                logger.info("Unknown source name %s (%r)", nm, nD[nm])
-
     def testAccessTaxonomyData(self):
         """Test the case read and write taxonomy resource file"""
         try:
             taxId = 9606
-            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
 
             tL = tU.getLineage(taxId)
             logger.debug("Lineage for %d (%d): %r", taxId, len(tL), tL)
@@ -137,7 +146,7 @@ class TaxonomyProviderTests(unittest.TestCase):
         try:
             # Escherichia coli #1/H766
             taxId = 1354003
-            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
             taxId = tU.getMergedTaxId(taxId)
             sn = tU.getScientificName(taxId)
             logger.debug("Scientific name (%d): %s", taxId, sn)
@@ -159,7 +168,7 @@ class TaxonomyProviderTests(unittest.TestCase):
         try:
             # Severe acute respiratory syndrome coronavirus 2
             taxId = 2697049
-            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
             taxId = tU.getMergedTaxId(taxId)
             sn = tU.getScientificName(taxId)
             logger.info("Scientific name (%d): %s", taxId, sn)
@@ -180,7 +189,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             self.fail()
 
     def testMissingTaxIds(self):
-        """"""
+        """ """
         missingTaxIds = [
             100641,
             10559,
@@ -316,7 +325,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             999953,
         ]
         try:
-            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
             count = 0
             for taxId in missingTaxIds:
                 if tU.getMergedTaxId(taxId) == taxId:
@@ -331,7 +340,7 @@ class TaxonomyProviderTests(unittest.TestCase):
         """Test export taxonomy data in a particular data structure."""
         try:
             dL = []
-            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
             dL = tU.exportNodeList()
             logger.debug("Node list length %d", len(dL))
             logger.debug("Node list %r", dL[:20])
@@ -342,7 +351,7 @@ class TaxonomyProviderTests(unittest.TestCase):
     def testGraphOps(self):
         """Test graph operations."""
         try:
-            tU = TaxonomyProvider(taxDirPath=self.__workPath)
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
             #
             startTime = time.time()
             lcTaxId = tU.getLowestCommonAncestor(63221, 741158)
