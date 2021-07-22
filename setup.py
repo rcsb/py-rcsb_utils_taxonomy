@@ -18,11 +18,20 @@ with open("rcsb/utils/taxonomy/__init__.py", "r") as fd:
 if not version:
     raise RuntimeError("Cannot find version information")
 
+
+# Load packages from requirements*.txt
+with open("requirements.txt", "r") as ifh:
+    packagesRequired = [ln.strip() for ln in ifh.readlines()]
+
+with open("README.md", "r") as ifh:
+    longDescription = ifh.read()
+
 setup(
     name=thisPackage,
     version=version,
     description="RCSB Python Taxonomy Access Utility Classes",
-    long_description="See:  README.md",
+    long_description_content_type="text/markdown",
+    long_description=longDescription,
     author="John Westbrook",
     author_email="john.westbrook@rcsb.org",
     url="https://github.com/rcsb/py-rcsb_utils_taxonomy",
@@ -40,7 +49,7 @@ setup(
     ),
     entry_points={"console_scripts": []},
     #
-    install_requires=["rcsb.utils.io >= 0.52", "networkx >= 2.4"],
+    install_requires=packagesRequired,
     packages=find_packages(exclude=["rcsb.mock-data", "rcsb.utils.tests-taxonomy", "rcsb.utils.tests-*", "tests.*"]),
     package_data={
         # If any package contains *.md or *.rst ...  files, include them:
