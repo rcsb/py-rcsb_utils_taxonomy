@@ -1,2 +1,2 @@
-rcsb.utils.io >= 1.14
+rcsb.utils.io >= 1.15
 networkx >= 2.4
