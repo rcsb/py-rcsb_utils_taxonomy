@@ -41,8 +41,8 @@ class TaxonomyProvider(StashableBase):
             self.__taxDirPath = os.path.abspath(kwargs.get("taxDirPath", "."))
             cachePath, dirName = os.path.split(os.path.abspath(self.__taxDirPath))
         super(TaxonomyProvider, self).__init__(cachePath, [dirName])
-
         useCache = kwargs.get("useCache", True)
+        self.__cleanup = kwargs.get("cleanup", True)
         #
         self.__urlTarget = kwargs.get("ncbiTaxonomyUrl", "https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz")
         #
@@ -388,27 +388,28 @@ class TaxonomyProvider(StashableBase):
             mD = self.__mergedTaxids(mergeL)
             ok = self.__mU.doExport(taxMergedNodePath, mD, fmt="pickle") and ok
             # Cleanup
-            fnList = [
-                "citations.dmp",
-                "delnodes.dmp",
-                "division.dmp",
-                "gc.prt",
-                "gencode.dmp",
-                "merged.dmp",
-                "names.dmp",
-                "nodes.dmp",
-                "readme.txt",
-                "taxdump.tar.gz",
-                "names.dmp.gz",
-                "nodes.dmp.gz",
-                "merged.dmp.gz",
-            ]
-            for fn in fnList:
-                try:
-                    fp = os.path.join(taxDirPath, fn)
-                    os.remove(fp)
-                except Exception:
-                    pass
+            if self.__cleanup:
+                fnList = [
+                    "citations.dmp",
+                    "delnodes.dmp",
+                    "division.dmp",
+                    "gc.prt",
+                    "gencode.dmp",
+                    "merged.dmp",
+                    "names.dmp",
+                    "nodes.dmp",
+                    "readme.txt",
+                    "taxdump.tar.gz",
+                    "names.dmp.gz",
+                    "nodes.dmp.gz",
+                    "merged.dmp.gz",
+                ]
+                for fn in fnList:
+                    try:
+                        fp = os.path.join(taxDirPath, fn)
+                        os.remove(fp)
+                    except Exception:
+                        pass
         #
         return tD, nD, mD
 
