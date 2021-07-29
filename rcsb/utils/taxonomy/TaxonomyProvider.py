@@ -59,8 +59,8 @@ class TaxonomyProvider(StashableBase):
 
     def testCache(self):
         # Lengths name 2133961 node 2133961 merge 54768
-        logger.debug("Lengths name %d node %d merge %d", len(self.__nameD), len(self.__nodeD), len(self.__mergeD))
         if (len(self.__nameD) > 2100000) and (len(self.__nodeD) > 2100000) and (len(self.__mergeD) > 54000):
+            logger.info("Taxonomy lengths name %d node %d merge %d", len(self.__nameD), len(self.__nodeD), len(self.__mergeD))
             return True
         return False
 
@@ -375,7 +375,7 @@ class TaxonomyProvider(StashableBase):
             tD = self.__mU.doImport(taxNamePath, fmt="pickle")
             nD = self.__mU.doImport(taxNodePath, fmt="pickle")
             mD = self.__mU.doImport(taxMergedNodePath, fmt="pickle")
-            logger.debug("Taxonomy name length %d node length %d", len(tD), len(nD))
+            logger.debug("Taxonomy names length %d nodes length %d", len(tD), len(nD))
         elif not useCache:
 
             nmL, ndL, mergeL = self.__fetchFromSource(urlTarget, taxDirPath)

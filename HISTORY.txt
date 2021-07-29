@@ -28,6 +28,7 @@
   28-Mar-2021  - V0.36 Further adjustments comparison status return codes
   24-Jul-2021  - V0.37 Make TaxonomyProvider a subclass of StashableBase
   29-Jul-2021  - V0.38 Add optional cleanup option to control if download files are purged after read
+  29-Jul-2021  - V0.39 Report sizes in testCache() method
 
 
 
