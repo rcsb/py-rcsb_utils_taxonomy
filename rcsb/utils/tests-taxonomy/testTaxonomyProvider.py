@@ -120,7 +120,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             logger.debug("Scientific name (%d): %s", taxId, sn)
             self.assertGreater(len(sn), 10)
             cnL = tU.getCommonNames(taxId)
-            self.assertGreaterEqual(len(cnL), 2)
+            self.assertGreaterEqual(len(cnL), 1)
             logger.debug("Common names (%d): %r", taxId, cnL)
             psn = tU.getParentScientificName(taxId)
             logger.debug("Parent scientific name %s", psn)
