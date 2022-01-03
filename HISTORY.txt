@@ -29,6 +29,7 @@
   24-Jul-2021  - V0.37 Make TaxonomyProvider a subclass of StashableBase
   29-Jul-2021  - V0.38 Add optional cleanup option to control if download files are purged after read
   29-Jul-2021  - V0.39 Report sizes in testCache() method
+   3-Jan-2022  - V0.40 Update list of missingTaxIds in response to updated NCBI source data files
 
 
 

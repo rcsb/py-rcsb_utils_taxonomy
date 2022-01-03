@@ -5,6 +5,8 @@
 #
 # Update:
 #   25-Mar-2019  jdw add test for merged taxons
+#    3-Jan-2022  dwp remove taxID 255776 from list of missingTaxIds, which is now present in the merged.dmp and nodes.dmp NCBI source data files
+#                (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz)
 #
 ##
 """
@@ -34,6 +36,7 @@ TOPDIR = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s]-%(module)s.%(funcName)s: %(message)s")
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+# logger.setLevel(logging.DEBUG)
 
 
 class TaxonomyProviderTests(unittest.TestCase):
@@ -62,16 +65,21 @@ class TaxonomyProviderTests(unittest.TestCase):
         endTime = time.time()
         logger.info("Completed %s at %s (%.4f seconds)", self.id(), time.strftime("%Y %m %d %H:%M:%S", time.localtime()), endTime - self.__startTime)
 
-    def testAANameLookup(self):
-
-        #
-        tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
-        ok = tU.testCache()
-        self.assertFalse(ok)
-        #
+    def testBuildCache(self):
+        """Test building the cache from NCBI resource"""
         tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=False)
         ok = tU.testCache()
         self.assertTrue(ok)
+
+    def testAANameLookup(self):
+        #
+        tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=True)
+        ok = tU.testCache()
+        #
+        if not ok:
+            tU = TaxonomyProvider(cachePath=self.__cachePath, useCache=False)
+            ok = tU.testCache()
+            self.assertTrue(ok)
         #
         mU = MarshalUtil(workPath=self.__cachePath)
         nD = mU.doImport(self.__missingNamePath, fmt="json")
@@ -83,8 +91,7 @@ class TaxonomyProviderTests(unittest.TestCase):
     def testFallback(self):
         """Test taxonomy data fallback."""
         try:
-            urlTarget = "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdumpadfadfad.tar.gz"
-            tU = TaxonomyProvider(cachePath=self.__cachePathFb, ncbiTaxonomyUrl=urlTarget, useCache=False)
+            tU = TaxonomyProvider(cachePath=self.__cachePathFb, ncbiTaxonomyUrl=self.__urlTarget, useCache=False)
             ok = tU.testCache()
             self.assertTrue(ok)
         except Exception as e:
@@ -239,7 +246,6 @@ class TaxonomyProviderTests(unittest.TestCase):
             2244,
             2274,
             241811,
-            255776,
             260809,
             265180,
             269483,
@@ -357,7 +363,6 @@ class TaxonomyProviderTests(unittest.TestCase):
             logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
             self.assertEqual(9606, lcTaxId)
             #
-
             #
             startTime = time.time()
             lcTaxId = tU.getLowestCommonAncestor(9606, 9606)
@@ -391,6 +396,9 @@ class TaxonomyProviderTests(unittest.TestCase):
 
 def utilReadSuite():
     suiteSelect = unittest.TestSuite()
+    suiteSelect.addTest(TaxonomyProviderTests("testBuildCache"))
+    suiteSelect.addTest(TaxonomyProviderTests("testAANameLookup"))
+    suiteSelect.addTest(TaxonomyProviderTests("testFallback"))
     suiteSelect.addTest(TaxonomyProviderTests("testAccessTaxonomyData"))
     suiteSelect.addTest(TaxonomyProviderTests("testLineageTaxonomyData"))
     suiteSelect.addTest(TaxonomyProviderTests("testMissingTaxIds"))
