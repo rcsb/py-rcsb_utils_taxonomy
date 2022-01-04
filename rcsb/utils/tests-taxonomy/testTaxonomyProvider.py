@@ -6,7 +6,7 @@
 # Update:
 #   25-Mar-2019  jdw add test for merged taxons
 #    3-Jan-2022  dwp remove taxID 255776 from list of missingTaxIds, which is now present in the merged.dmp and nodes.dmp NCBI source data files
-#                (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz)
+#                (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz); Also reduce minimum required list lengths in testLineageTaxonomySpecial.
 #
 ##
 """
@@ -184,11 +184,11 @@ class TaxonomyProviderTests(unittest.TestCase):
             #
             tL = tU.getLineageWithNames(taxId)
             logger.debug("tL(%d) %r", len(tL), tL)
-            self.assertGreaterEqual(len(tL), 35)
+            self.assertGreaterEqual(len(tL), 30)
             psn = tU.getParentScientificName(taxId)
             logger.debug("Parent scientific name %s", psn)
             cnL = tU.getCommonNames(taxId)
-            self.assertGreaterEqual(len(cnL), 9)
+            self.assertGreaterEqual(len(cnL), 8)
             logger.debug("Common names (%d): %r", taxId, cnL)
         except Exception as e:
             logger.exception("Failing with %s", str(e))
@@ -401,6 +401,7 @@ def utilReadSuite():
     suiteSelect.addTest(TaxonomyProviderTests("testFallback"))
     suiteSelect.addTest(TaxonomyProviderTests("testAccessTaxonomyData"))
     suiteSelect.addTest(TaxonomyProviderTests("testLineageTaxonomyData"))
+    suiteSelect.addTest(TaxonomyProviderTests("testLineageTaxonomySpecial"))
     suiteSelect.addTest(TaxonomyProviderTests("testMissingTaxIds"))
     return suiteSelect
 
