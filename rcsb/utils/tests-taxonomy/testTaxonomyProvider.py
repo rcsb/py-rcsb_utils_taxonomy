@@ -6,7 +6,9 @@
 # Update:
 #   25-Mar-2019  jdw add test for merged taxons
 #    3-Jan-2022  dwp remove taxID 255776 from list of missingTaxIds, which is now present in the merged.dmp and nodes.dmp NCBI source data files
-#                (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz); Also reduce minimum required list lengths in testLineageTaxonomySpecial.
+#                    (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz);
+#                    Also reduce minimum required list lengths in testLineageTaxonomySpecial
+#   30-Jan-2023  dwp reduce taxonomy lineage data length threshold from 32 to 30
 #
 ##
 """
@@ -162,7 +164,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             #
             tL = tU.getLineageWithNames(taxId)
             logger.debug("tL(%d) %r", len(tL), tL)
-            self.assertGreaterEqual(len(tL), 32)
+            self.assertGreaterEqual(len(tL), 30)
             psn = tU.getParentScientificName(taxId)
             logger.debug("Parent scientific name %s", psn)
         except Exception as e:
