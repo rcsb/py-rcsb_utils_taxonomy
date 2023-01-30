@@ -31,6 +31,7 @@
   29-Jul-2021  - V0.39 Report sizes in testCache() method
    3-Jan-2022  - V0.40 Update list of missingTaxIds in response to updated NCBI source data files
    6-Jan-2023  - V0.41 Configuration changes to support tox 4
+  30-Jan-2023  - V0.42 Update taxonomy lineage test
 
 
 
