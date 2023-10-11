@@ -12,7 +12,8 @@
 # 24-Apr-2019 jdw Add filter option to node list generator and exclude synthetic root from exported tree.
 # 14-May-2019 jdw cast all access to mergeD[]
 # 23-Jul-2019 jdw adjustments to preserve ordering.
-# 21-Jul-2021 jdw  Make this provider a subclass of StashableBase
+# 21-Jul-2021 jdw Make this provider a subclass of StashableBase
+# 11-Oct-2023 dwp adjust reading in of names.dmp file due to some strange parsing behavior using MarshalUtil
 ##
 
 import collections
@@ -515,9 +516,19 @@ class TaxonomyProvider(StashableBase):
                 ok3 = ok1 and ok2 and ok3
             logger.info("Taxonomy fallback fetch status is %r", ok3)
         #
-        nmL = self.__mU.doImport(os.path.join(taxDirPath, "names.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        # nmL = self.__mU.doImport(os.path.join(taxDirPath, "names.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        # Switch to using this method below because names.dmp file has some special characters causing multiple lines to be
+        # read in as a single line in above MarshalUtil method (specifically starting at taxId 171288)
+        nmL = []
+        with open(os.path.join(taxDirPath, "names.dmp"), "r", encoding="utf-8") as f:
+            for line in f:
+                nmL.append([i.strip() for i in line.split("\t")])
+        logger.debug("length of nmL: %r and first few: %r", len(nmL), nmL[0:3])
         ndL = self.__mU.doImport(os.path.join(taxDirPath, "nodes.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        logger.debug("length of ndL: %r and first few: %r", len(ndL), ndL[0:3])
+        #
         mergeL = self.__mU.doImport(os.path.join(taxDirPath, "merged.dmp"), fmt="tdd", rowFormat="list", uncomment=False)
+        logger.debug("length of mergeL: %r and first few: %r", len(mergeL), mergeL[0:3])
         # deleteL = self.__mU.doImport(os.path.join(taxDirPath, 'delnodes.dmp'), fmt='tdd', rowFormat='list')
 
         return nmL, ndL, mergeL
