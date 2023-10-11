@@ -293,7 +293,7 @@ class TaxonomyProvider(StashableBase):
                 pTaxId = self.getParentTaxid(taxId)
                 #
                 if sn is None or not sn:
-                    logger.info("Unexpected null taxon %r sn %r", taxId, sn)
+                    logger.warning("Unexpected null taxon %r sn %r", taxId, sn)
                 #
                 # logger.debug("Scientific name (%d): %s (%r)" % (taxId, sn, altName))
                 #
