@@ -33,6 +33,7 @@
    6-Jan-2023  - V0.41 Configuration changes to support tox 4
   30-Jan-2023  - V0.42 Update taxonomy lineage test
   11-Oct-2023  - V0.43 Adjust parsing of taxonomy names file
+   1-Jul-2024  - V0.44 Update package version with latest setuptools
 
 
 
