@@ -251,7 +251,6 @@ class TaxonomyProviderTests(unittest.TestCase):
             260809,
             265180,
             269483,
-            27317,
             2775,
             28451,
             28575,
