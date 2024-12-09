@@ -9,7 +9,7 @@
 #                    (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz);
 #                    Also reduce minimum required list lengths in testLineageTaxonomySpecial
 #   30-Jan-2023  dwp reduce taxonomy lineage data length threshold from 32 to 30
-#    9-Dec-2024  dwp NCBI added "kingdom" classification level to [at least] bacteria lineage (e.g., Pseudomonadati)
+#    9-Dec-2024  dwp Update test to account for "kingdom" classification level, after having been added to lineage by NCBI (e.g., Pseudomonadati)
 #                    (See browser at: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Root)
 #
 ##
