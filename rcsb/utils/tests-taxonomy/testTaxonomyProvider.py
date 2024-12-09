@@ -9,6 +9,8 @@
 #                    (from https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz);
 #                    Also reduce minimum required list lengths in testLineageTaxonomySpecial
 #   30-Jan-2023  dwp reduce taxonomy lineage data length threshold from 32 to 30
+#    9-Dec-2024  dwp NCBI added "kingdom" classification level to [at least] bacteria lineage (e.g., Pseudomonadati)
+#                    (See browser at: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Root)
 #
 ##
 """
@@ -378,6 +380,11 @@ class TaxonomyProviderTests(unittest.TestCase):
             startTime = time.time()
             lcTaxId = tU.getLowestCommonAncestor(866768, 2569093)
             logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
+            self.assertEqual(3379134, lcTaxId)
+            #
+            startTime = time.time()
+            lcTaxId = tU.getLowestCommonAncestor(866768, 91061)
+            logger.info("LCA %r in (%.4f seconds)", lcTaxId, time.time() - startTime)
             self.assertEqual(2, lcTaxId)
             #
             startTime = time.time()
@@ -416,8 +423,8 @@ def utilTreeSuite():
 
 if __name__ == "__main__":
     #
-    mySuite = utilReadSuite()
-    unittest.TextTestRunner(verbosity=2).run(mySuite)
+    # mySuite = utilReadSuite()
+    # unittest.TextTestRunner(verbosity=2).run(mySuite)
 
     mySuite = utilTreeSuite()
     unittest.TextTestRunner(verbosity=2).run(mySuite)
