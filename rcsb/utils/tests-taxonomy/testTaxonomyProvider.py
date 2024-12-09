@@ -423,8 +423,8 @@ def utilTreeSuite():
 
 if __name__ == "__main__":
     #
-    # mySuite = utilReadSuite()
-    # unittest.TextTestRunner(verbosity=2).run(mySuite)
+    mySuite = utilReadSuite()
+    unittest.TextTestRunner(verbosity=2).run(mySuite)
 
     mySuite = utilTreeSuite()
     unittest.TextTestRunner(verbosity=2).run(mySuite)
