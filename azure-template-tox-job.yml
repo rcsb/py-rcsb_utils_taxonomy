@@ -17,7 +17,7 @@ jobs:
 - job: ${{ format('build_test_{0}_{1}', parameters.tox, parameters.os) }}
   pool:
     ${{ if eq(parameters.os, 'macos') }}:
-      vmImage: 'macOS-latest'
+      vmImage: 'macOS-15'
     ${{ if eq(parameters.os, 'linux') }}:
       vmImage: 'ubuntu-latest'
 
