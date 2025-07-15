@@ -35,9 +35,4 @@
   11-Oct-2023  - V0.43 Adjust parsing of taxonomy names file
    1-Jul-2024  - V0.44 Update package version with latest setuptools
    9-Dec-2024  - V0.45 Update Azure pipelines to use latest macOS, Ubuntu, and python 3.10
-
-
-
-
-
-
+  15-Jul-2025  - V0.46 Update testTaxonomyProvider and requirements

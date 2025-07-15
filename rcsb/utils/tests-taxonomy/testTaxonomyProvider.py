@@ -1,4 +1,4 @@
-# File:    TaxonomyProviderTests.py
+# File:    testTaxonomyProvider.py
 # Author:  J. Westbrook
 # Date:    9-Mar-2019
 # Version: 0.001
@@ -11,6 +11,7 @@
 #   30-Jan-2023  dwp reduce taxonomy lineage data length threshold from 32 to 30
 #    9-Dec-2024  dwp Update test to account for "kingdom" classification level, after having been added to lineage by NCBI (e.g., Pseudomonadati)
 #                    (See browser at: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Root)
+#   15-Jul-2025  dwp reduce testLineageTaxonomySpecial threshold from 30 to 27 (returned count dropped to 28 around 15-Jun-2025)
 #
 ##
 """
@@ -188,7 +189,7 @@ class TaxonomyProviderTests(unittest.TestCase):
             #
             tL = tU.getLineageWithNames(taxId)
             logger.debug("tL(%d) %r", len(tL), tL)
-            self.assertGreaterEqual(len(tL), 30)
+            self.assertGreaterEqual(len(tL), 27)
             psn = tU.getParentScientificName(taxId)
             logger.debug("Parent scientific name %s", psn)
             cnL = tU.getCommonNames(taxId)
