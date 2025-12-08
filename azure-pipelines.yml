@@ -4,8 +4,9 @@
 #       8-Jul-2019 jdw templatize
 #       9-Jul-2019 jdw add publish jobs
 #      21-Jul-2019 jdw update to Py38
-#      26-Mar-2021 jdw update to Py39
-#       9-Dec-2024 dwp update to py310
+#      24-Nov-2020 jdw update to py39 remove py27
+#      10-Oct-2024 mjt update to py310 remove py39
+#       8-Dec-2025 dwp update to py313
 #
 name: $(BuildDefinitionName)_$(Date:yyyyMMdd)$(Rev:.rr)
 
@@ -25,20 +26,18 @@ schedules:
 
 jobs:
   - template: azure-template-tox-job.yml
-    parameters: { tox: "format_pep8", python: "3.10", os: "linux" }
+    parameters: { tox: "format_pep8", python: "3.13", os: "linux" }
   - template: azure-template-tox-job.yml
-    parameters: { tox: "lint_pylint", python: "3.10", os: "linux" }
+    parameters: { tox: "lint_pylint", python: "3.13", os: "linux" }
   - template: azure-template-tox-job.yml
-    parameters: { tox: "test_coverage", python: "3.10", os: "linux" }
+    parameters: { tox: "test_coverage", python: "3.13", os: "linux" }
     #
   - template: azure-template-tox-job.yml
-    parameters: { tox: "py310", python: "3.10", os: "linux" }
+    parameters: { tox: "py313", python: "3.13", os: "linux" }
   #
   - template: azure-template-tox-job.yml
-    parameters: { tox: "py310", python: "3.10", os: "macos" }
-
+    parameters: { tox: "py313", python: "3.13", os: "macos" }
+  #
   - template: azure-template-publish-job.yml
-    parameters: { tox: "py310", python: "3.10", os: "macos" }
-  - template: azure-template-publish-job.yml
-    parameters: { tox: "py310", python: "3.10", os: "linux" }
+    parameters: { tox: "py313", python: "3.13", os: "linux" }
   #
