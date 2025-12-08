@@ -34,7 +34,7 @@ from importlib.metadata import version as get_package_version
 from rcsb.utils.io.MarshalUtil import MarshalUtil
 from rcsb.utils.taxonomy.TaxonomyProvider import TaxonomyProvider
 
-__version__ = get_package_version("rcsb.utils.struct")
+__version__ = get_package_version("rcsb.utils.taxonomy")
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 TOPDIR = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
